@@ -48,6 +48,47 @@ CALL sp_register_student(
         @userId
     );
 
+-- update student
+DELIMITER //
+CREATE PROCEDURE sp_update_student(
+    IN studentId INT,
+    IN firstName VARCHAR(255),
+    IN lastName VARCHAR(255),
+    IN emailAddress VARCHAR(100),
+    IN userPassword VARCHAR(255),
+    IN nicNo VARCHAR(12),
+    IN contactNo VARCHAR(20),
+    IN userAddress VARCHAR(255),
+    IN roleId INT,
+    IN facultyId INT,
+    IN updatedAt DATETIME,
+    IN userStatus INT,
+    IN studentRegNo VARCHAR(20),
+    IN roomId INT
+)
+BEGIN
+    -- Update user information
+    UPDATE `user` SET `first_name`= firstName,
+                      `last_name`= lastName,
+                      `email`= emailAddress,
+                      `password`= userPassword,
+                      `nic`= nicNo,
+                      `contact`= contactNo,
+                      `address`= userAddress,
+                      `role_id`= roleId,
+                      `faculty_id`= facultyId,
+                      `updated_at`= updatedAt,
+                      `status`= userStatus
+    WHERE `id` = studentId;
+
+    -- Update user information
+    UPDATE `student` SET `registration_no` = studentRegNo,
+                         `room_id` = roomId
+    WHERE `user_id` = studentId;
+
+END //
+DELIMITER ;
+
 
 
 
