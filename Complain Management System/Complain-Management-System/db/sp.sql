@@ -91,5 +91,68 @@ DELIMITER ;
 
 
 
+DELIMITER //
+CREATE PROCEDURE sp_remove_student(
+    IN studentId INT
+
+)
+BEGIN
+    -- delete student informations
+   DELETE FROM `student` WHERE `user_id` = studentId;
+
+    -- delete user informations
+    DELETE FROM `user` WHERE `id` = studentId;
+END //
+DELIMITER ;
+
+
+-- asset
+
+DELIMITER //
+CREATE PROCEDURE sp_add_asset(
+    IN assetCondition VARCHAR(255),
+    IN assetDescription VARCHAR(255),
+    IN assetName VARCHAR(100),
+    IN assetQuantity INT
+)
+BEGIN
+    -- Insert a new asset into the 'asset' table
+    INSERT INTO `asset` (`asset_condition`, `description`, `name`, `quantity`)
+    VALUES (assetCondition, assetDescription, assetName, assetQuantity);
+
+END //
+DELIMITER ;
+
+CALL sp_add_asset(
+        'Broken',
+        'Two Tables are broken',
+        'Table',
+        '2'
+    );
+
+
+
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_update_asset(
+    IN assetId INT,
+    IN assetCondition VARCHAR(255),
+    IN assetDescription VARCHAR(255),
+    IN AssetName VARCHAR(100),
+    IN assetQuantity INT
+)
+BEGIN
+    -- Update asset information
+    UPDATE `asset` SET `asset_condition`= assetCondition,
+                  `description`= assetDescription,
+                  `name`= AssetName,
+                  `quantity`= assetQuantity
+    WHERE `id` = assetId;
+
+END //
+DELIMITER ;
+
 
 
