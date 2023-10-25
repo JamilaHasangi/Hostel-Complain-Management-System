@@ -346,3 +346,30 @@ BEGIN
 END //
 DELIMITER ;
 
+
+-- room
+
+DELIMITER //
+CREATE PROCEDURE sp_add_room(
+    IN roomFloorId INT,
+    IN roomStudentCount INT,
+    IN roomNo INT
+)
+BEGIN
+    -- Insert a new details into the 'room' table
+    INSERT INTO `room` (`floor_id`, `no_of_students`, `room_no`)
+    VALUES (roomFloorId,roomStudentCount,roomNo);
+
+END //
+DELIMITER ;
+
+CALL sp_add_room(
+        '1',
+        '04',
+        '203'
+
+    );
+
+
+ 
+
