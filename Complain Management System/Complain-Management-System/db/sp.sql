@@ -131,10 +131,6 @@ CALL sp_add_asset(
     );
 
 
-
-
-
-
 DELIMITER //
 CREATE PROCEDURE sp_update_asset(
     IN assetId INT,
@@ -155,4 +151,198 @@ END //
 DELIMITER ;
 
 
+-- subWarden
+
+DELIMITER //
+CREATE PROCEDURE sp_register_subWarden(
+    IN firstName VARCHAR(255),
+    IN lastName VARCHAR(255),
+    IN emailAddress VARCHAR(100),
+    IN userPassword VARCHAR(255),
+    IN nicNo VARCHAR(12),
+    IN contactNo VARCHAR(20),
+    IN userAddress VARCHAR(255),
+    IN roleId INT,
+    IN facultyId INT,
+    IN createdAt DATETIME,
+    IN userStatus INT,
+    OUT userId INT -- Define an OUT parameter to return the user ID
+)
+BEGIN
+    -- Insert a new user into the 'user' table
+    INSERT INTO `user` (`first_name`, `last_name`, `email`, `password`, `nic`, `contact`, `address`, `role_id`, `faculty_id`, `created_at`, `status`)
+    VALUES (firstName, lastName, emailAddress, userPassword, nicNo, contactNo, userAddress, roleId, facultyId, createdAt, userStatus);
+
+    -- Get the last inserted user ID
+    SET userId = LAST_INSERT_ID();
+
+    -- Insert a new subWarden into the 'subWarden' table
+    INSERT INTO `student` (`user_id`)
+    VALUES (userId);
+END //
+DELIMITER ;
+
+CALL sp_register_subWarden(
+        'Jamila',
+        'Hasangi',
+        'jamilahasangi@example1.com',
+        'password123',
+        '995733110V',
+        '0761864773',
+        '123 Matara walgama',
+        3,
+        1,
+        '2023-09-18 00:40:20',
+        1,
+        @userId
+    );
+
+-- update subWarden
+DELIMITER //
+CREATE PROCEDURE sp_update_subWarden(
+    IN subWardenId INT,
+    IN firstName VARCHAR(255),
+    IN lastName VARCHAR(255),
+    IN emailAddress VARCHAR(100),
+    IN userPassword VARCHAR(255),
+    IN nicNo VARCHAR(12),
+    IN contactNo VARCHAR(20),
+    IN userAddress VARCHAR(255),
+    IN roleId INT,
+    IN facultyId INT,
+    IN updatedAt DATETIME,
+    IN userStatus INT
+
+)
+BEGIN
+    -- Update user information
+    UPDATE `user` SET `first_name`= firstName,
+                      `last_name`= lastName,
+                      `email`= emailAddress,
+                      `password`= userPassword,
+                      `nic`= nicNo,
+                      `contact`= contactNo,
+                      `address`= userAddress,
+                      `role_id`= roleId,
+                      `faculty_id`= facultyId,
+                      `updated_at`= updatedAt,
+                      `status`= userStatus
+    WHERE `id` = subWardenId;
+
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_remove_subWarden(
+    IN subWardenId INT
+
+)
+BEGIN
+    -- delete subWarden information
+    DELETE FROM `sub_warden` WHERE `user_id` = subWardenId;
+
+    -- delete user information
+    DELETE FROM `user` WHERE `id` = subWardenId;
+END //
+DELIMITER ;
+
+
+-- dean
+
+DELIMITER //
+CREATE PROCEDURE sp_register_dean(
+    IN firstName VARCHAR(255),
+    IN lastName VARCHAR(255),
+    IN emailAddress VARCHAR(100),
+    IN userPassword VARCHAR(255),
+    IN nicNo VARCHAR(12),
+    IN contactNo VARCHAR(20),
+    IN userAddress VARCHAR(255),
+    IN roleId INT,
+    IN facultyId INT,
+    IN createdAt DATETIME,
+    IN userStatus INT,
+    OUT userId INT -- Define an OUT parameter to return the user ID
+)
+BEGIN
+    -- Insert a new user into the 'user' table
+    INSERT INTO `user` (`first_name`, `last_name`, `email`, `password`, `nic`, `contact`, `address`, `role_id`, `faculty_id`, `created_at`, `status`)
+    VALUES (firstName, lastName, emailAddress, userPassword, nicNo, contactNo, userAddress, roleId, facultyId, createdAt, userStatus);
+
+    -- Get the last inserted user ID
+    SET userId = LAST_INSERT_ID();
+
+    -- Insert a new dean into the 'dean' table
+    INSERT INTO `dean` (`user_id`)
+    VALUES (userId);
+END //
+DELIMITER ;
+
+CALL sp_register_dean(
+        'Subash',
+        'Jayasingha',
+        'subashjayasingha@example2.com',
+        'password123',
+        '665739810V',
+        '0714564773',
+        '103 Galle Karapitiya',
+        2,
+        1,
+        '2023-09-18 00:40:20',
+        1,
+        @userId
+    );
+
+-- update dean
+DELIMITER //
+CREATE PROCEDURE sp_update_dean(
+    IN deanId INT,
+    IN firstName VARCHAR(255),
+    IN lastName VARCHAR(255),
+    IN emailAddress VARCHAR(100),
+    IN userPassword VARCHAR(255),
+    IN nicNo VARCHAR(12),
+    IN contactNo VARCHAR(20),
+    IN userAddress VARCHAR(255),
+    IN roleId INT,
+    IN facultyId INT,
+    IN updatedAt DATETIME,
+    IN userStatus INT
+
+)
+BEGIN
+    -- Update user information
+    UPDATE `user` SET `first_name`= firstName,
+                      `last_name`= lastName,
+                      `email`= emailAddress,
+                      `password`= userPassword,
+                      `nic`= nicNo,
+                      `contact`= contactNo,
+                      `address`= userAddress,
+                      `role_id`= roleId,
+                      `faculty_id`= facultyId,
+                      `updated_at`= updatedAt,
+                      `status`= userStatus
+    WHERE `id` = deanId;
+
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_remove_dean(
+    IN deanId INT
+
+)
+BEGIN
+    -- delete subWarden information
+    DELETE FROM `dean` WHERE `user_id` = deanId;
+
+    -- delete user information
+    DELETE FROM `user` WHERE `id` = deanId;
+END //
+DELIMITER ;
 
