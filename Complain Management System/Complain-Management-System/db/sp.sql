@@ -233,6 +233,114 @@ END //
 DELIMITER ;
 
 
+-- senior student counselor register
+
+DELIMITER //
+CREATE PROCEDURE sp_register_senior_student_counselor(
+    IN firstName VARCHAR(255),
+    IN lastName VARCHAR(255),
+    IN emailAddress VARCHAR(100),
+    IN userPassword VARCHAR(255),
+    IN nicNo VARCHAR(12),
+    IN contactNo VARCHAR(20),
+    IN userAddress VARCHAR(255),
+    IN roleId INT,
+    IN facultyId INT,
+    IN createdAt DATETIME,
+    IN userStatus INT,
+    OUT userId INT -- Define an OUT parameter to return the user ID
+)
+BEGIN
+    -- Insert a new user into the 'user' table
+    INSERT INTO `user` (`first_name`, `last_name`, `email`, `password`, `nic`, `contact`, `address`, `role_id`, `faculty_id`, `created_at`, `status`)
+    VALUES (firstName, lastName, emailAddress, userPassword, nicNo, contactNo, userAddress, roleId, facultyId, createdAt, userStatus);
+
+    -- Get the last inserted user ID
+    SET userId = LAST_INSERT_ID();
+
+    -- Insert a new student into the 'senior_student_counselor' table
+    INSERT INTO `senior_student_counselor` (`user_id`)
+    VALUES (userId);
+END //
+DELIMITER ;
+
+CALL sp_register_senior_student_counselor(
+        'Malsha',
+        'Prabuddhi',
+        'malsha@gmail.com',
+        'password123',
+        '1978567812V',
+        '0744567899',
+        '145 Main St',
+        5,
+        1,
+        '2023-09-18 00:40:20',
+        1,
+        @userId
+    );
+
+
+
+-- senior student counselor updated
+
+DELIMITER //
+CREATE PROCEDURE sp_update_senior_student_counselor(
+    IN sscId INT,
+    IN firstName VARCHAR(255),
+    IN lastName VARCHAR(255),
+    IN emailAddress VARCHAR(100),
+    IN userPassword VARCHAR(255),
+    IN nicNo VARCHAR(12),
+    IN contactNo VARCHAR(20),
+    IN userAddress VARCHAR(255),
+    IN roleId INT,
+    IN facultyId INT,
+    IN updatedAt DATETIME,
+    IN userStatus INT
+)
+BEGIN
+
+    -- Update user information
+    UPDATE `user` SET `first_name`= firstName,
+                      `last_name`= lastName,
+                      `email`= emailAddress,
+                      `password`= userPassword,
+                      `nic`= nicNo,
+                      `contact`= contactNo,
+                      `address`= userAddress,
+                      `role_id`= roleId,
+                      `faculty_id`= facultyId,
+                      `updated_at`= updatedAt,
+                      `status`= userStatus
+    WHERE `id` = sscId;
+
+
+END //
+DELIMITER ;
+
+
+
+-- senior student counselor deleted
+
+DELIMITER //
+CREATE PROCEDURE sp_remove_senior_student_counselor(
+    IN sscId INT
+
+)
+BEGIN
+    -- delete senior student counselor informations
+    DELETE FROM `senior_student_counselor` WHERE `user_id` = sscId;
+
+    -- delete user informations
+    DELETE FROM `user` WHERE `id` = sscId;
+END //
+DELIMITER ;
+
+
+
+
+
+
 
 DELIMITER //
 CREATE PROCEDURE sp_remove_subWarden(
