@@ -337,11 +337,6 @@ END //
 DELIMITER ;
 
 
-
-
-
-
-
 DELIMITER //
 CREATE PROCEDURE sp_remove_subWarden(
     IN subWardenId INT
@@ -478,6 +473,33 @@ CALL sp_add_room(
 
     );
 
+-- report
+DELIMITER //
+CREATE PROCEDURE sp_add_report(
+    IN reportContent VARCHAR(255),
+    IN reportDateTime DATETIME(6),
+    IN userId BIGINT
+)
+BEGIN
+    DECLARE userExists INT;
 
- 
+    SELECT COUNT(*) INTO userExists FROM user WHERE id = userId;
+
+    IF userExists > 0 THEN
+        INSERT INTO report (content, date_time, user_id)
+        VALUES (reportContent, reportDateTime, userId);
+        SELECT 'Report added successfully.' AS Status;
+    ELSE
+        SELECT 'Invalid user_id. Report not added.' AS Status;
+    END IF;
+END //
+DELIMITER ;
+
+CALL sp_add_report(
+        'complain Number 01',
+        '2023-10-26 14:30:00.000000',
+        1
+    );
+
+
 
