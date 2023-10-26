@@ -510,10 +510,10 @@ CREATE PROCEDURE sp_remove_report(
 
 )
 BEGIN
-    -- delete report informations
+    -- delete report info
     DELETE FROM `report` WHERE `user_id` = reportId;
 
-    -- delete user informations
+    -- delete user info
     DELETE FROM `user` WHERE `id` = reportId;
 END //
 DELIMITER ;
