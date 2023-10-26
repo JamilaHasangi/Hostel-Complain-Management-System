@@ -91,6 +91,7 @@ DELIMITER ;
 
 
 
+
 DELIMITER //
 CREATE PROCEDURE sp_remove_student(
     IN studentId INT
@@ -106,7 +107,12 @@ END //
 DELIMITER ;
 
 
--- asset
+
+
+
+
+
+-- AssetInsert
 
 DELIMITER //
 CREATE PROCEDURE sp_add_asset(
@@ -149,6 +155,31 @@ BEGIN
 
 END //
 DELIMITER ;
+
+
+
+
+-- AssetDelete
+
+DELIMITER //
+CREATE PROCEDURE sp_remove_asset(
+    IN assetId INT
+
+)
+BEGIN
+    -- delete student informations
+    DELETE FROM `asset` WHERE `id` = assetId;
+
+END //
+DELIMITER ;
+
+
+
+
+
+
+
+
 
 
 -- subWarden
@@ -231,6 +262,27 @@ BEGIN
 
 END //
 DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_remove_subWarden(
+    IN subWardenId INT
+)
+BEGIN
+    -- delete subWarden information
+    DELETE FROM `sub_warden` WHERE `user_id` = subWardenId;
+
+    -- delete user information
+    DELETE FROM `user` WHERE `id` = subWardenId;
+END //
+DELIMITER ;
+
+
+
+
+
+
 
 
 -- senior student counselor register
@@ -319,7 +371,6 @@ END //
 DELIMITER ;
 
 
-
 -- senior student counselor deleted
 
 DELIMITER //
@@ -337,19 +388,115 @@ END //
 DELIMITER ;
 
 
+
+
+
+
+-- InsertAcademicWarden
+
 DELIMITER //
-CREATE PROCEDURE sp_remove_subWarden(
-    IN subWardenId INT
+CREATE PROCEDURE sp_register_academicWarden(
+    IN firstName VARCHAR(255),
+    IN lastName VARCHAR(255),
+    IN emailAddress VARCHAR(100),
+    IN userPassword VARCHAR(255),
+    IN nicNo VARCHAR(12),
+    IN contactNo VARCHAR(20),
+    IN userAddress VARCHAR(255),
+    IN roleId INT,
+    IN facultyId INT,
+    IN createdAt DATETIME,
+    IN userStatus INT,
+    OUT userId INT -- Define an OUT parameter to return the user ID
+)
+BEGIN
+    -- Insert a new user into the 'user' table
+    INSERT INTO `user` (`first_name`, `last_name`, `email`, `password`, `nic`, `contact`, `address`, `role_id`, `faculty_id`, `created_at`, `status`)
+    VALUES (firstName, lastName, emailAddress, userPassword, nicNo, contactNo, userAddress, roleId, facultyId, createdAt, userStatus);
+
+    -- Get the last inserted user ID
+    SET userId = LAST_INSERT_ID();
+
+    -- Insert a new student into the 'student' table
+    INSERT INTO `academic_warden` (`id`)
+    VALUES (userId);
+END //
+DELIMITER ;
+
+CALL sp_register_academicWarden(
+        'Nimal',
+        'Jayalath',
+        'Nimal@example2.com',
+        'password666',
+        '6666567812V',
+        '0774567890',
+        '76/4 Main St',
+        4,
+        1,
+        '2023-09-18 00:40:20',
+        1,
+        @userId
+    );
+
+
+
+
+-- update academicWarden
+DELIMITER //
+CREATE PROCEDURE sp_update_academicWarden(
+    IN AwID INT,
+    IN firstName VARCHAR(255),
+    IN lastName VARCHAR(255),
+    IN emailAddress VARCHAR(100),
+    IN userPassword VARCHAR(255),
+    IN nicNo VARCHAR(12),
+    IN contactNo VARCHAR(20),
+    IN userAddress VARCHAR(255),
+    IN roleId INT,
+    IN facultyId INT,
+    IN updatedAt DATETIME,
+    IN userStatus INT
 
 )
 BEGIN
-    -- delete subWarden information
-    DELETE FROM `sub_warden` WHERE `user_id` = subWardenId;
+    -- Update AcademicWarden information
+    UPDATE `user` SET `first_name`= firstName,
+                      `last_name`= lastName,
+                      `email`= emailAddress,
+                      `password`= userPassword,
+                      `nic`= nicNo,
+                      `contact`= contactNo,
+                      `address`= userAddress,
+                      `role_id`= roleId,
+                      `faculty_id`= facultyId,
+                      `updated_at`= updatedAt,
+                      `status`= userStatus
+    WHERE `id` = AwID;
 
-    -- delete user information
-    DELETE FROM `user` WHERE `id` = subWardenId;
 END //
 DELIMITER ;
+
+
+
+-- Remove Academic Warden
+DELIMITER //
+CREATE PROCEDURE sp_remove_academicWarden(
+    IN AwID INT
+)
+BEGIN
+    -- delete AcademicWarden informations
+    DELETE FROM `academic_warden` WHERE `id` = id;
+
+    -- delete user informations
+    DELETE FROM `user` WHERE `id` = id;
+END //
+DELIMITER ;
+
+
+
+
+
+
 
 
 -- dean
@@ -433,7 +580,7 @@ BEGIN
 END //
 DELIMITER ;
 
-
+-- RemoveDean
 
 DELIMITER //
 CREATE PROCEDURE sp_remove_dean(
@@ -448,6 +595,11 @@ BEGIN
     DELETE FROM `user` WHERE `id` = deanId;
 END //
 DELIMITER ;
+
+
+
+
+
 
 
 -- room
