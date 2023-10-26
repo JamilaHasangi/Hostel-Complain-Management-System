@@ -28,8 +28,8 @@ SELECT u.first_name,
        cp.user_id,
        cp.description,
        cp.submission_date,
-       cp. is_resolved,
-       cp. quantity
+       cp.is_resolved,
+       cp.quantity
 FROM hcms.`user` u,hcms.`complaint` cp
 WHERE u.id = cp.id ;
 

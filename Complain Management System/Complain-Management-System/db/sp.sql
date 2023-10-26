@@ -518,6 +518,74 @@ BEGIN
 END //
 DELIMITER ;
 
- 
+-- complaint procedure register
+DELIMITER //
+CREATE PROCEDURE sp_register_complaint(
+    IN userId INT,
+    IN assetId INT,
+    IN descriptions TEXT,
+    IN isResolved BOOLEAN,
+    IN complaintStatus INT,
+    IN complaintUrgency INT,
+    IN complaintQuantity INT,
+    IN imageURL VARCHAR(255),
+    IN qrCodeUrl VARCHAR(255),
+    IN escalationCount INT,
+    IN submissionDate DATETIME,
+    OUT complaintId INT -- Define an OUT parameter to return the complaint ID
+)
+BEGIN
+    -- Insert a new complaint
+    INSERT INTO `complaint` (`user_id`, `asset_id`, `description`, `is_resolved`, `status`, `urgency`, `quantity`, `image_url`, `qr_code_url`, `escalation_count`, `submission_date`)
+    VALUES (userId, assetId, descriptions, isResolved, complaintStatus, complaintUrgency,complaintQuantity , imageURL, qrCodeUrl, escalationCount, submissionDate);
 
+    -- Get the last inserted complaint ID
+    SET complaintId = LAST_INSERT_ID();
+END //
+DELIMITER ;
+
+-- complaint procedure updated
+DELIMITER //
+CREATE PROCEDURE sp_update_complaint(
+    IN complaintId INT,
+    IN userId INT,
+    IN assetId INT,
+    IN descriptions TEXT,
+    IN isResolved BOOLEAN,
+    IN complaintStatus INT,
+    IN complaintUrgency INT,
+    IN complaintQuantity INT,
+    IN imageURL VARCHAR(255),
+    IN qrCodeUrl VARCHAR(255),
+    IN escalationCount INT,
+    IN submissionDate DATETIME
+)
+BEGIN
+    -- Update complaint information
+    UPDATE `complaint` SET
+                           `user_id` = userId,
+                           `asset_id` = assetId,
+                           `description` = descriptions,
+                           `is_resolved` = isResolved,
+                           `status` = complaintStatus,
+                           `urgency` = complaintUrgency,
+                           `quantity` = complaintQuantity,
+                           `image_url` = imageURL,
+                           `qr_code_url` = qrCodeUrl,
+                           `escalation_count` = escalationCount,
+                           `submission_date` = submissionDate
+    WHERE `id` = complaintId;
+END //
+DELIMITER ;
+
+-- complaint procedure remove
+DELIMITER //
+CREATE PROCEDURE sp_remove_complaint(
+    IN complaintId INT
+)
+BEGIN
+    -- Delete complaint by ID
+    DELETE FROM `complaint` WHERE `id` = complaintId;
+END //
+DELIMITER ;
 
