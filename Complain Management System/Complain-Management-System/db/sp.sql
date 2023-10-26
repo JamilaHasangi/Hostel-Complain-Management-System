@@ -479,5 +479,20 @@ CALL sp_add_room(
     );
 
 
+-- remove report info
+DELIMITER //
+CREATE PROCEDURE sp_remove_report(
+    IN reportId INT
+
+)
+BEGIN
+    -- delete report informations
+    DELETE FROM `report` WHERE `user_id` = reportId;
+
+    -- delete user informations
+    DELETE FROM `user` WHERE `id` = reportId;
+END //
+DELIMITER ;
+
  
 
