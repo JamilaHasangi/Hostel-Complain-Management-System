@@ -676,23 +676,21 @@ CREATE PROCEDURE sp_register_complaint(
     IN userId INT,
     IN assetId INT,
     IN descriptions TEXT,
-    IN isResolved BOOLEAN,
     IN complaintStatus INT,
     IN complaintUrgency INT,
     IN complaintQuantity INT,
     IN imageURL VARCHAR(255),
     IN qrCodeUrl VARCHAR(255),
     IN escalationCount INT,
-    IN submissionDate DATETIME,
-    OUT complaintId INT -- Define an OUT parameter to return the complaint ID
+    IN submissionDate DATETIME
+
 )
 BEGIN
     -- Insert a new complaint
     INSERT INTO `complaint` (`user_id`, `asset_id`, `description`, `is_resolved`, `status`, `urgency`, `quantity`, `image_url`, `qr_code_url`, `escalation_count`, `submission_date`)
-    VALUES (userId, assetId, descriptions, isResolved, complaintStatus, complaintUrgency,complaintQuantity , imageURL, qrCodeUrl, escalationCount, submissionDate);
+    VALUES (userId, assetId, descriptions, false, complaintStatus, complaintUrgency,complaintQuantity , imageURL, qrCodeUrl, escalationCount, submissionDate);
 
-    -- Get the last inserted complaint ID
-    SET complaintId = LAST_INSERT_ID();
+
 END //
 DELIMITER ;
 
@@ -709,8 +707,7 @@ CREATE PROCEDURE sp_update_complaint(
     IN complaintQuantity INT,
     IN imageURL VARCHAR(255),
     IN qrCodeUrl VARCHAR(255),
-    IN escalationCount INT,
-    IN submissionDate DATETIME
+    IN escalationCount INT
 )
 BEGIN
     -- Update complaint information
@@ -724,8 +721,7 @@ BEGIN
                            `quantity` = complaintQuantity,
                            `image_url` = imageURL,
                            `qr_code_url` = qrCodeUrl,
-                           `escalation_count` = escalationCount,
-                           `submission_date` = submissionDate
+                           `escalation_count` = escalationCount
     WHERE `id` = complaintId;
 END //
 DELIMITER ;

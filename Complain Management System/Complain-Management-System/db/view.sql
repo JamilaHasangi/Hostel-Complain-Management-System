@@ -6,15 +6,15 @@ SELECT u.first_name,
        u.nic,
        u.contact,
        u.address,
-       u.role_id,
-       u.faculty_id,
+       ur.name AS role_name,
+       f.name AS faculty_name,
        u.created_at,
        u.updated_at,
        u.status,
        s.registration_no,
-       s.room_id
-FROM hcms.`user` u,hcms.`student` s
-WHERE u.id = s.user_id AND u.role_id = 1;
+       r.room_no
+FROM hcms.`user` u,hcms.`student` s, hcms.`user_role` ur, hcms.`room` r, hcms.`faculty` f
+WHERE u.id = s.user_id AND u.role_id = 1 AND u.role_id = ur.id AND s.room_id = r.id AND u.faculty_id = f.id;
 
 -- dean information
 CREATE OR REPLACE view view_dean_info AS
@@ -42,11 +42,11 @@ SELECT u.first_name,
        u.created_at,
        u.updated_at,
        cp.asset_id,
-       cp.user_id,
        cp.description,
        cp.submission_date,
        cp.is_resolved,
-       cp.quantity
+       cp.quantity,
+       cp.status
 FROM hcms.`user` u,hcms.`complaint` cp
 WHERE u.id = cp.id ;
 
@@ -105,7 +105,7 @@ WHERE u.id = aw.id AND u.role_id = 4;
 
 
 ----create view for report
-CREATE OR REPLACE view view_complaint_info AS
+CREATE OR REPLACE view view_report_info AS
 SELECT u.first_name,
        u.last_name,
        u.role_id,
