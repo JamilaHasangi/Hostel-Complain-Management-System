@@ -125,6 +125,13 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Call the stored procedure with Sample Data 1
+CALL sp_add_asset('Good', 'Chair', 'Chair', 5);
+
+-- Call the stored procedure with Sample Data 2
+CALL sp_add_asset('Used', 'table', 'table', 10);
+
+
 CALL sp_add_asset(
         'Broken',
         'Two Tables are broken',
@@ -651,6 +658,7 @@ END //
 DELIMITER ;
 
 -- complaint procedure register
+DROP PROCEDURE IF EXISTS sp_register_complaint;
 DELIMITER //
 CREATE PROCEDURE sp_register_complaint(
     IN userId INT,
@@ -667,12 +675,19 @@ CREATE PROCEDURE sp_register_complaint(
 )
 BEGIN
     -- Insert a new complaint
-    INSERT INTO `complaint` (`user_id`, `asset_id`, `description`, `is_resolved`, `status`, `urgency`, `quantity`, `image_url`, `qr_code_url`, `escalation_count`, `submission_date`)
-    VALUES (userId, assetId, descriptions, false, complaintStatus, complaintUrgency,complaintQuantity , imageURL, qrCodeUrl, escalationCount, submissionDate);
+    INSERT INTO `complaint` (`user_id`, `asset_id`, `description`, `is_resolved`, `status`, `urgency`, `quantity`, `image_url`, `qr_code_url`, `escalation_count`, `submission_date`, `escalation_date`, `sub_warden_action_date`, `academic_warden_action_date`)
+    VALUES (userId, assetId, descriptions, false, complaintStatus, complaintUrgency,complaintQuantity , imageURL, qrCodeUrl, escalationCount, submissionDate, NULL, NULL, NULL);
 
 
 END //
 DELIMITER ;
+
+-- Call the stored procedure with Sample Data 1
+CALL sp_register_complaint(2, 1, 'Broken equipment', 0, 1, 2, 'sample_image1.jpg', 'sample_qrcode1.jpg', 0, NOW());
+
+-- Call the stored procedure with Sample Data 2
+CALL sp_register_complaint(2, 2, 'Network issues', 0, 2, 1, 'sample_image2.jpg', 'sample_qrcode2.jpg', 0, NOW());
+
 
 -- complaint procedure updated
 DELIMITER //
@@ -717,3 +732,18 @@ BEGIN
 END //
 DELIMITER ;
 
+
+DELIMITER //
+CREATE PROCEDURE sp_insert_action_log(
+    IN logAction VARCHAR(50),
+    IN logType VARCHAR(50),
+    IN createdAt DATETIME,
+    IN logDescription VARCHAR(50)
+)
+BEGIN
+    -- Insert a new details into the 'action_log' table
+    INSERT INTO `action_log` (`action`, `log_type`, `created_at`, `description`)
+    VALUES (logAction,logType,createdAt,logDescription);
+
+END //
+DELIMITER ;
