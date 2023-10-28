@@ -108,10 +108,6 @@ DELIMITER ;
 
 
 
-
-
-
-
 -- AssetInsert
 
 DELIMITER //
@@ -157,8 +153,6 @@ END //
 DELIMITER ;
 
 
-
-
 -- AssetDelete
 
 DELIMITER //
@@ -172,14 +166,6 @@ BEGIN
 
 END //
 DELIMITER ;
-
-
-
-
-
-
-
-
 
 
 -- subWarden
@@ -277,12 +263,6 @@ BEGIN
     DELETE FROM `user` WHERE `id` = subWardenId;
 END //
 DELIMITER ;
-
-
-
-
-
-
 
 
 -- senior student counselor register
