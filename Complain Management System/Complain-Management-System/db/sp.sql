@@ -663,7 +663,7 @@ DELIMITER //
 CREATE PROCEDURE sp_register_complaint(
     IN userId INT,
     IN assetId INT,
-    IN descriptions TEXT,
+    IN descriptions VARCHAR(255),
     IN complaintStatus INT,
     IN complaintUrgency INT,
     IN complaintQuantity INT,
@@ -683,10 +683,10 @@ END //
 DELIMITER ;
 
 -- Call the stored procedure with Sample Data 1
-CALL sp_register_complaint(2, 1, 'Broken equipment', 0, 1, 2, 'sample_image1.jpg', 'sample_qrcode1.jpg', 0, NOW());
+CALL sp_register_complaint(8, 1, 'Broken equipment', 0, 1, 2, 'sample_image1.jpg', 'sample_qrcode1.jpg', 0, NOW());
 
 -- Call the stored procedure with Sample Data 2
-CALL sp_register_complaint(2, 2, 'Network issues', 0, 2, 1, 'sample_image2.jpg', 'sample_qrcode2.jpg', 0, NOW());
+CALL sp_register_complaint(9, 2, 'Network issues', 0, 2, 1, 'sample_image2.jpg', 'sample_qrcode2.jpg', 0, NOW());
 
 
 -- complaint procedure updated
@@ -732,18 +732,34 @@ BEGIN
 END //
 DELIMITER ;
 
-
+DROP PROCEDURE IF EXISTS sp_insert_action_log;
 DELIMITER //
 CREATE PROCEDURE sp_insert_action_log(
     IN logAction VARCHAR(50),
     IN logType VARCHAR(50),
     IN createdAt DATETIME,
-    IN logDescription VARCHAR(50)
+    IN logDescription VARCHAR(100)
 )
 BEGIN
     -- Insert a new details into the 'action_log' table
     INSERT INTO `action_log` (`action`, `log_type`, `created_at`, `description`)
     VALUES (logAction,logType,createdAt,logDescription);
+
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS sp_insert_user_log;
+DELIMITER //
+CREATE PROCEDURE sp_insert_user_log(
+    IN logAction VARCHAR(50),
+    IN roleName VARCHAR(50),
+    IN createdAt DATETIME,
+    IN logDescription VARCHAR(100)
+)
+BEGIN
+    -- Insert a new details into the 'user_log' table
+    INSERT INTO `user_log` (`action`, `role_name`, `created_at`, `description`)
+    VALUES (logAction,roleName,createdAt,logDescription);
 
 END //
 DELIMITER ;

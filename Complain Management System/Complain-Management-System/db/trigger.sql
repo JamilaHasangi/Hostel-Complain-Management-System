@@ -10,7 +10,7 @@ BEGIN
     DECLARE assetName VARCHAR(255);
     DECLARE logType VARCHAR(50);
     DECLARE operation VARCHAR(50);
-    DECLARE logDescription VARCHAR(255);
+    DECLARE logDescription VARCHAR(100);
 
     SELECT u.first_name INTO userName FROM user u WHERE u.id = NEW.user_id;
     SELECT a.name INTO assetName FROM asset a WHERE a.id = NEW.asset_id;
@@ -76,3 +76,55 @@ BEGIN
 END//
 DELIMITER ;
 
+
+-- User log triggers
+-- insert
+
+DROP TRIGGER IF EXISTS trigger_after_user_insert;
+
+DELIMITER //
+
+CREATE TRIGGER trigger_after_user_insert
+    AFTER INSERT ON user
+    FOR EACH ROW
+BEGIN
+    DECLARE userName VARCHAR(50);
+    DECLARE roleName VARCHAR(50);
+    DECLARE operation VARCHAR(50);
+    DECLARE logDescription VARCHAR(100);
+
+    SELECT ur.name INTO roleName FROM user_role ur WHERE ur.id = NEW.role_id;
+
+    SET userName = NEW.first_name;
+    SET operation = 'Insert';
+    SET logDescription = CONCAT('Registered a new ', roleName, ' named ', userName);
+
+    CALL sp_insert_user_log(operation, roleName, CURRENT_TIMESTAMP,  logDescription);
+END//
+DELIMITER ;
+
+
+-- update
+
+DROP TRIGGER IF EXISTS trigger_after_user_update;
+
+DELIMITER //
+
+CREATE TRIGGER trigger_after_user_update
+    AFTER UPDATE ON user
+    FOR EACH ROW
+BEGIN
+    DECLARE userName VARCHAR(50);
+    DECLARE roleName VARCHAR(50);
+    DECLARE operation VARCHAR(50);
+    DECLARE logDescription VARCHAR(100);
+
+    SELECT ur.name INTO roleName FROM user_role ur WHERE ur.id = NEW.role_id;
+
+    SET userName = NEW.first_name;
+    SET operation = 'Update';
+    SET logDescription = CONCAT('Updated details of  ', roleName, ' named ', userName);
+
+    CALL sp_insert_user_log(operation, roleName, CURRENT_TIMESTAMP,  logDescription);
+END//
+DELIMITER ;
