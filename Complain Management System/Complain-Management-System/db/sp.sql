@@ -19,8 +19,10 @@ CREATE PROCEDURE sp_register_student(
 )
 BEGIN
     -- Insert a new user into the 'user' table
-    INSERT INTO `user` (`first_name`, `last_name`, `email`, `password`, `nic`, `contact`, `address`, `role_id`, `faculty_id`, `created_at`, `status`)
-    VALUES (firstName, lastName, emailAddress, userPassword, nicNo, contactNo, userAddress, roleId, facultyId, createdAt, userStatus);
+    INSERT INTO `user` (`first_name`, `last_name`, `email`, `password`, `nic`, `contact`, `address`, `role_id`,
+                        `faculty_id`, `created_at`, `status`)
+    VALUES (firstName, lastName, emailAddress, userPassword, nicNo, contactNo, userAddress, roleId, facultyId,
+            createdAt, userStatus);
 
     -- Get the last inserted user ID
     SET userId = LAST_INSERT_ID();
@@ -68,44 +70,42 @@ CREATE PROCEDURE sp_update_student(
 )
 BEGIN
     -- Update user information
-    UPDATE `user` SET `first_name`= firstName,
-                      `last_name`= lastName,
-                      `email`= emailAddress,
-                      `password`= userPassword,
-                      `nic`= nicNo,
-                      `contact`= contactNo,
-                      `address`= userAddress,
-                      `role_id`= roleId,
-                      `faculty_id`= facultyId,
-                      `updated_at`= updatedAt,
-                      `status`= userStatus
+    UPDATE `user`
+    SET `first_name`= firstName,
+        `last_name`= lastName,
+        `email`= emailAddress,
+        `password`= userPassword,
+        `nic`= nicNo,
+        `contact`= contactNo,
+        `address`= userAddress,
+        `role_id`= roleId,
+        `faculty_id`= facultyId,
+        `updated_at`= updatedAt,
+        `status`= userStatus
     WHERE `id` = studentId;
 
     -- Update user information
-    UPDATE `student` SET `registration_no` = studentRegNo,
-                         `room_id` = roomId
+    UPDATE `student`
+    SET `registration_no` = studentRegNo,
+        `room_id`         = roomId
     WHERE `user_id` = studentId;
 
 END //
 DELIMITER ;
 
 
-
-
 DELIMITER //
 CREATE PROCEDURE sp_remove_student(
     IN studentId INT
-
 )
 BEGIN
     -- delete student informations
-   DELETE FROM `student` WHERE `user_id` = studentId;
+    DELETE FROM `student` WHERE `user_id` = studentId;
 
     -- delete user informations
     DELETE FROM `user` WHERE `id` = studentId;
 END //
 DELIMITER ;
-
 
 
 -- AssetInsert
@@ -150,10 +150,11 @@ CREATE PROCEDURE sp_update_asset(
 )
 BEGIN
     -- Update asset information
-    UPDATE `asset` SET `asset_condition`= assetCondition,
-                  `description`= assetDescription,
-                  `name`= AssetName,
-                  `quantity`= assetQuantity
+    UPDATE `asset`
+    SET `asset_condition`= assetCondition,
+        `description`= assetDescription,
+        `name`= AssetName,
+        `quantity`= assetQuantity
     WHERE `id` = assetId;
 
 END //
@@ -165,7 +166,6 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE sp_remove_asset(
     IN assetId INT
-
 )
 BEGIN
     -- delete student informations
@@ -194,8 +194,10 @@ CREATE PROCEDURE sp_register_subWarden(
 )
 BEGIN
     -- Insert a new user into the 'user' table
-    INSERT INTO `user` (`first_name`, `last_name`, `email`, `password`, `nic`, `contact`, `address`, `role_id`, `faculty_id`, `created_at`, `status`)
-    VALUES (firstName, lastName, emailAddress, userPassword, nicNo, contactNo, userAddress, roleId, facultyId, createdAt, userStatus);
+    INSERT INTO `user` (`first_name`, `last_name`, `email`, `password`, `nic`, `contact`, `address`, `role_id`,
+                        `faculty_id`, `created_at`, `status`)
+    VALUES (firstName, lastName, emailAddress, userPassword, nicNo, contactNo, userAddress, roleId, facultyId,
+            createdAt, userStatus);
 
     -- Get the last inserted user ID
     SET userId = LAST_INSERT_ID();
@@ -236,26 +238,25 @@ CREATE PROCEDURE sp_update_subWarden(
     IN facultyId INT,
     IN updatedAt DATETIME,
     IN userStatus INT
-
 )
 BEGIN
     -- Update user information
-    UPDATE `user` SET `first_name`= firstName,
-                      `last_name`= lastName,
-                      `email`= emailAddress,
-                      `password`= userPassword,
-                      `nic`= nicNo,
-                      `contact`= contactNo,
-                      `address`= userAddress,
-                      `role_id`= roleId,
-                      `faculty_id`= facultyId,
-                      `updated_at`= updatedAt,
-                      `status`= userStatus
+    UPDATE `user`
+    SET `first_name`= firstName,
+        `last_name`= lastName,
+        `email`= emailAddress,
+        `password`= userPassword,
+        `nic`= nicNo,
+        `contact`= contactNo,
+        `address`= userAddress,
+        `role_id`= roleId,
+        `faculty_id`= facultyId,
+        `updated_at`= updatedAt,
+        `status`= userStatus
     WHERE `id` = subWardenId;
 
 END //
 DELIMITER ;
-
 
 
 DELIMITER //
@@ -291,8 +292,10 @@ CREATE PROCEDURE sp_register_senior_student_counselor(
 )
 BEGIN
     -- Insert a new user into the 'user' table
-    INSERT INTO `user` (`first_name`, `last_name`, `email`, `password`, `nic`, `contact`, `address`, `role_id`, `faculty_id`, `created_at`, `status`)
-    VALUES (firstName, lastName, emailAddress, userPassword, nicNo, contactNo, userAddress, roleId, facultyId, createdAt, userStatus);
+    INSERT INTO `user` (`first_name`, `last_name`, `email`, `password`, `nic`, `contact`, `address`, `role_id`,
+                        `faculty_id`, `created_at`, `status`)
+    VALUES (firstName, lastName, emailAddress, userPassword, nicNo, contactNo, userAddress, roleId, facultyId,
+            createdAt, userStatus);
 
     -- Get the last inserted user ID
     SET userId = LAST_INSERT_ID();
@@ -319,7 +322,6 @@ CALL sp_register_senior_student_counselor(
     );
 
 
-
 -- senior student counselor updated
 
 DELIMITER //
@@ -340,17 +342,18 @@ CREATE PROCEDURE sp_update_senior_student_counselor(
 BEGIN
 
     -- Update user information
-    UPDATE `user` SET `first_name`= firstName,
-                      `last_name`= lastName,
-                      `email`= emailAddress,
-                      `password`= userPassword,
-                      `nic`= nicNo,
-                      `contact`= contactNo,
-                      `address`= userAddress,
-                      `role_id`= roleId,
-                      `faculty_id`= facultyId,
-                      `updated_at`= updatedAt,
-                      `status`= userStatus
+    UPDATE `user`
+    SET `first_name`= firstName,
+        `last_name`= lastName,
+        `email`= emailAddress,
+        `password`= userPassword,
+        `nic`= nicNo,
+        `contact`= contactNo,
+        `address`= userAddress,
+        `role_id`= roleId,
+        `faculty_id`= facultyId,
+        `updated_at`= updatedAt,
+        `status`= userStatus
     WHERE `id` = sscId;
 
 
@@ -363,7 +366,6 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE sp_remove_senior_student_counselor(
     IN sscId INT
-
 )
 BEGIN
     -- delete senior student counselor informations
@@ -373,10 +375,6 @@ BEGIN
     DELETE FROM `user` WHERE `id` = sscId;
 END //
 DELIMITER ;
-
-
-
-
 
 
 -- InsertAcademicWarden
@@ -398,8 +396,10 @@ CREATE PROCEDURE sp_register_academicWarden(
 )
 BEGIN
     -- Insert a new user into the 'user' table
-    INSERT INTO `user` (`first_name`, `last_name`, `email`, `password`, `nic`, `contact`, `address`, `role_id`, `faculty_id`, `created_at`, `status`)
-    VALUES (firstName, lastName, emailAddress, userPassword, nicNo, contactNo, userAddress, roleId, facultyId, createdAt, userStatus);
+    INSERT INTO `user` (`first_name`, `last_name`, `email`, `password`, `nic`, `contact`, `address`, `role_id`,
+                        `faculty_id`, `created_at`, `status`)
+    VALUES (firstName, lastName, emailAddress, userPassword, nicNo, contactNo, userAddress, roleId, facultyId,
+            createdAt, userStatus);
 
     -- Get the last inserted user ID
     SET userId = LAST_INSERT_ID();
@@ -426,8 +426,6 @@ CALL sp_register_academicWarden(
     );
 
 
-
-
 -- update academicWarden
 DELIMITER //
 CREATE PROCEDURE sp_update_academicWarden(
@@ -443,26 +441,25 @@ CREATE PROCEDURE sp_update_academicWarden(
     IN facultyId INT,
     IN updatedAt DATETIME,
     IN userStatus INT
-
 )
 BEGIN
     -- Update AcademicWarden information
-    UPDATE `user` SET `first_name`= firstName,
-                      `last_name`= lastName,
-                      `email`= emailAddress,
-                      `password`= userPassword,
-                      `nic`= nicNo,
-                      `contact`= contactNo,
-                      `address`= userAddress,
-                      `role_id`= roleId,
-                      `faculty_id`= facultyId,
-                      `updated_at`= updatedAt,
-                      `status`= userStatus
+    UPDATE `user`
+    SET `first_name`= firstName,
+        `last_name`= lastName,
+        `email`= emailAddress,
+        `password`= userPassword,
+        `nic`= nicNo,
+        `contact`= contactNo,
+        `address`= userAddress,
+        `role_id`= roleId,
+        `faculty_id`= facultyId,
+        `updated_at`= updatedAt,
+        `status`= userStatus
     WHERE `id` = AwID;
 
 END //
 DELIMITER ;
-
 
 
 -- Remove Academic Warden
@@ -478,12 +475,6 @@ BEGIN
     DELETE FROM `user` WHERE `id` = id;
 END //
 DELIMITER ;
-
-
-
-
-
-
 
 
 -- dean
@@ -505,8 +496,10 @@ CREATE PROCEDURE sp_register_dean(
 )
 BEGIN
     -- Insert a new user into the 'user' table
-    INSERT INTO `user` (`first_name`, `last_name`, `email`, `password`, `nic`, `contact`, `address`, `role_id`, `faculty_id`, `created_at`, `status`)
-    VALUES (firstName, lastName, emailAddress, userPassword, nicNo, contactNo, userAddress, roleId, facultyId, createdAt, userStatus);
+    INSERT INTO `user` (`first_name`, `last_name`, `email`, `password`, `nic`, `contact`, `address`, `role_id`,
+                        `faculty_id`, `created_at`, `status`)
+    VALUES (firstName, lastName, emailAddress, userPassword, nicNo, contactNo, userAddress, roleId, facultyId,
+            createdAt, userStatus);
 
     -- Get the last inserted user ID
     SET userId = LAST_INSERT_ID();
@@ -547,21 +540,21 @@ CREATE PROCEDURE sp_update_dean(
     IN facultyId INT,
     IN updatedAt DATETIME,
     IN userStatus INT
-
 )
 BEGIN
     -- Update user information
-    UPDATE `user` SET `first_name`= firstName,
-                      `last_name`= lastName,
-                      `email`= emailAddress,
-                      `password`= userPassword,
-                      `nic`= nicNo,
-                      `contact`= contactNo,
-                      `address`= userAddress,
-                      `role_id`= roleId,
-                      `faculty_id`= facultyId,
-                      `updated_at`= updatedAt,
-                      `status`= userStatus
+    UPDATE `user`
+    SET `first_name`= firstName,
+        `last_name`= lastName,
+        `email`= emailAddress,
+        `password`= userPassword,
+        `nic`= nicNo,
+        `contact`= contactNo,
+        `address`= userAddress,
+        `role_id`= roleId,
+        `faculty_id`= facultyId,
+        `updated_at`= updatedAt,
+        `status`= userStatus
     WHERE `id` = deanId;
 
 END //
@@ -572,7 +565,6 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE sp_remove_dean(
     IN deanId INT
-
 )
 BEGIN
     -- delete subWarden information
@@ -582,11 +574,6 @@ BEGIN
     DELETE FROM `user` WHERE `id` = deanId;
 END //
 DELIMITER ;
-
-
-
-
-
 
 
 -- room
@@ -600,7 +587,7 @@ CREATE PROCEDURE sp_add_room(
 BEGIN
     -- Insert a new details into the 'room' table
     INSERT INTO `room` (`floor_id`, `no_of_students`, `room_no`)
-    VALUES (roomFloorId,roomStudentCount,roomNo);
+    VALUES (roomFloorId, roomStudentCount, roomNo);
 
 END //
 DELIMITER ;
@@ -609,7 +596,6 @@ CALL sp_add_room(
         '1',
         '04',
         '203'
-
     );
 
 -- report
@@ -641,12 +627,10 @@ CALL sp_add_report(
     );
 
 
-
 -- remove report info
 DELIMITER //
 CREATE PROCEDURE sp_remove_report(
     IN reportId INT
-
 )
 BEGIN
     -- delete report info
@@ -671,12 +655,14 @@ CREATE PROCEDURE sp_register_complaint(
     IN qrCodeUrl VARCHAR(255),
     IN escalationCount INT,
     IN submissionDate DATETIME
-
 )
 BEGIN
     -- Insert a new complaint
-    INSERT INTO `complaint` (`user_id`, `asset_id`, `description`, `is_resolved`, `status`, `urgency`, `quantity`, `image_url`, `qr_code_url`, `escalation_count`, `submission_date`, `escalation_date`, `sub_warden_action_date`, `academic_warden_action_date`)
-    VALUES (userId, assetId, descriptions, false, complaintStatus, complaintUrgency,complaintQuantity , imageURL, qrCodeUrl, escalationCount, submissionDate, NULL, NULL, NULL);
+    INSERT INTO `complaint` (`user_id`, `asset_id`, `description`, `is_resolved`, `status`, `urgency`, `quantity`,
+                             `image_url`, `qr_code_url`, `escalation_count`, `submission_date`, `escalation_date`,
+                             `sub_warden_action_date`, `academic_warden_action_date`)
+    VALUES (userId, assetId, descriptions, false, complaintStatus, complaintUrgency, complaintQuantity, imageURL,
+            qrCodeUrl, escalationCount, submissionDate, NULL, NULL, NULL);
 
 
 END //
@@ -706,17 +692,17 @@ CREATE PROCEDURE sp_update_complaint(
 )
 BEGIN
     -- Update complaint information
-    UPDATE `complaint` SET
-                           `user_id` = userId,
-                           `asset_id` = assetId,
-                           `description` = descriptions,
-                           `is_resolved` = isResolved,
-                           `status` = complaintStatus,
-                           `urgency` = complaintUrgency,
-                           `quantity` = complaintQuantity,
-                           `image_url` = imageURL,
-                           `qr_code_url` = qrCodeUrl,
-                           `escalation_count` = escalationCount
+    UPDATE `complaint`
+    SET `user_id`          = userId,
+        `asset_id`         = assetId,
+        `description`      = descriptions,
+        `is_resolved`      = isResolved,
+        `status`           = complaintStatus,
+        `urgency`          = complaintUrgency,
+        `quantity`         = complaintQuantity,
+        `image_url`        = imageURL,
+        `qr_code_url`      = qrCodeUrl,
+        `escalation_count` = escalationCount
     WHERE `id` = complaintId;
 END //
 DELIMITER ;
@@ -743,7 +729,7 @@ CREATE PROCEDURE sp_insert_action_log(
 BEGIN
     -- Insert a new details into the 'action_log' table
     INSERT INTO `action_log` (`action`, `log_type`, `created_at`, `description`)
-    VALUES (logAction,logType,createdAt,logDescription);
+    VALUES (logAction, logType, createdAt, logDescription);
 
 END //
 DELIMITER ;
@@ -759,24 +745,66 @@ CREATE PROCEDURE sp_insert_user_log(
 BEGIN
     -- Insert a new details into the 'user_log' table
     INSERT INTO `user_log` (`action`, `role_name`, `created_at`, `description`)
-    VALUES (logAction,roleName,createdAt,logDescription);
+    VALUES (logAction, roleName, createdAt, logDescription);
 
 END //
 DELIMITER ;
 
 
-
-DROP PROCEDURE IF EXISTS sp_insert_report_log;
+-- for sub warden, academic warden, senior student counselor
+DROP PROCEDURE IF EXISTS sp_generate_daily_reports;
 DELIMITER //
-CREATE PROCEDURE sp_insert_report_log(
-    IN reportDescription VARCHAR(50),
-    IN createdAt DATETIME,
-    IN reportAction VARCHAR(100)
-)
-BEGIN
-    -- Insert a new details into the 'user_log' table
-    INSERT INTO `report_log` (`action`, `created_at`, `description`)
-    VALUES (reportAction,createdAt,reportDescription);
 
+CREATE PROCEDURE sp_generate_daily_reports()
+BEGIN
+    DECLARE dailyTotalCount INT;
+    DECLARE complain VARCHAR(2000);
+    DECLARE subWardenId, academicWardenId, seniorCounselorId INT;
+
+    SELECT description INTO complain FROM complaint;
+    SELECT COUNT(*) INTO dailyTotalCount FROM complaint WHERE DATE(submission_date) = CURDATE();
+
+    -- Get user ID for the SubWarden role
+    SELECT id INTO subWardenId FROM user WHERE role_id = 3 AND status = 1 LIMIT 1;
+
+    -- Get user ID for the Academic Warden role
+    SELECT id INTO academicWardenId FROM user WHERE role_id = 4 AND status = 1 LIMIT 1;
+
+    -- Get user ID for the Senior Student Counselor role
+    SELECT id INTO seniorCounselorId FROM user WHERE role_id = 5 AND status = 1 LIMIT 1;
+
+    CALL sp_send_report_to_sub_warden(subWardenId, complain, dailyTotalCount);
+    CALL sp_send_report_to_academic_warden(academicWardenId, complain, dailyTotalCount);
+    CALL sp_send_report_to_senior_student_counselor(seniorCounselorId, complain, dailyTotalCount);
+END //
+
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS sp_send_report_to_sub_warden;
+DELIMITER //
+CREATE PROCEDURE sp_send_report_to_sub_warden(IN userId INT, IN complainInfo VARCHAR(2000), IN dailyTotalCount INT)
+BEGIN
+    -- Logic to send the report to the sub warden
+    CALL sp_add_report(complainInfo,NOW(),userId);
 END //
 DELIMITER ;
+
+DROP PROCEDURE IF EXISTS sp_send_report_to_academic_warden;
+DELIMITER //
+CREATE PROCEDURE sp_send_report_to_academic_warden(IN userId INT, IN complainInfo VARCHAR(2000), IN dailyTotalCount INT)
+BEGIN
+    -- Logic to send the report to the academic warden
+    CALL sp_add_report(complainInfo,NOW(),userId);
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS sp_send_report_to_senior_student_counselor;
+DELIMITER //
+CREATE PROCEDURE sp_send_report_to_senior_student_counselor(IN userId INT, IN complainInfo VARCHAR(2000), IN dailyTotalCount INT)
+BEGIN
+    -- Logic to send the report to the senior student counselor
+    CALL sp_add_report(complainInfo,NOW(),userId);
+END //
+DELIMITER ;
+
+

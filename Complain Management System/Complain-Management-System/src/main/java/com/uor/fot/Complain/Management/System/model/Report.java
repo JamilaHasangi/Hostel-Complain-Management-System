@@ -22,5 +22,7 @@ public class Report {
 
     @Column(name = "date_time")
     private Date date;
+
+
 }
 

@@ -162,15 +162,21 @@ CREATE TRIGGER trigger_after_report_insert
     AFTER INSERT ON report
     FOR EACH ROW
 BEGIN
-
+    DECLARE userName VARCHAR(255);
+    DECLARE logType VARCHAR(50);
     DECLARE operation VARCHAR(50);
     DECLARE logDescription VARCHAR(100);
 
-    SET operation = 'Insert';
-    SET logDescription = CONCAT('Insert a new report ');
+    SELECT u.first_name INTO userName FROM user u WHERE u.id = NEW.user_id;
 
-    CALL sp_insert_report_log(operation,CURRENT_TIMESTAMP,logDescription);
+
+    SET logType = 'Report';
+    SET operation = 'Insert';
+    SET logDescription = CONCAT('New report added by user ', userName );
+
+    CALL sp_insert_action_log(operation, logType, CURRENT_TIMESTAMP,  logDescription);
 END//
+
 DELIMITER ;
 
 
