@@ -763,3 +763,20 @@ BEGIN
 
 END //
 DELIMITER ;
+
+
+
+DROP PROCEDURE IF EXISTS sp_insert_report_log;
+DELIMITER //
+CREATE PROCEDURE sp_insert_report_log(
+    IN reportDescription VARCHAR(50),
+    IN createdAt DATETIME,
+    IN reportAction VARCHAR(100)
+)
+BEGIN
+    -- Insert a new details into the 'user_log' table
+    INSERT INTO `report_log` (`action`, `created_at`, `description`)
+    VALUES (reportAction,createdAt,reportDescription);
+
+END //
+DELIMITER ;

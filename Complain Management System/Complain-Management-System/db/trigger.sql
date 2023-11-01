@@ -128,3 +128,49 @@ BEGIN
     CALL sp_insert_user_log(operation, roleName, CURRENT_TIMESTAMP,  logDescription);
 END//
 DELIMITER ;
+
+-- user deleted
+DROP TRIGGER IF EXISTS trigger_after_user_update;
+
+DELIMITER //
+
+CREATE TRIGGER trigger_after_user_delete
+    AFTER DELETE ON user
+    FOR EACH ROW
+BEGIN
+    DECLARE userName VARCHAR(50);
+    DECLARE roleName VARCHAR(50);
+    DECLARE operation VARCHAR(50);
+    DECLARE logDescription VARCHAR(100);
+
+    SELECT ur.name INTO roleName FROM user_role ur WHERE ur.id = OLD.role_id;
+
+    SET userName = OLD.first_name;
+    SET operation = 'Delete';
+    SET logDescription = CONCAT('Delete details of  ', roleName, ' named ', userName);
+
+    CALL sp_insert_user_log(operation, roleName, CURRENT_TIMESTAMP,  logDescription);
+END//
+DELIMITER ;
+
+
+DROP TRIGGER IF EXISTS trigger_after_report_insert;
+
+DELIMITER //
+
+CREATE TRIGGER trigger_after_report_insert
+    AFTER INSERT ON report
+    FOR EACH ROW
+BEGIN
+
+    DECLARE operation VARCHAR(50);
+    DECLARE logDescription VARCHAR(100);
+
+    SET operation = 'Insert';
+    SET logDescription = CONCAT('Insert a new report ');
+
+    CALL sp_insert_report_log(operation,CURRENT_TIMESTAMP,logDescription);
+END//
+DELIMITER ;
+
+
