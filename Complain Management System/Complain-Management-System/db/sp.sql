@@ -734,21 +734,6 @@ BEGIN
 END //
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS sp_insert_user_log;
-DELIMITER //
-CREATE PROCEDURE sp_insert_user_log(
-    IN logAction VARCHAR(50),
-    IN roleName VARCHAR(50),
-    IN createdAt DATETIME,
-    IN logDescription VARCHAR(100)
-)
-BEGIN
-    -- Insert a new details into the 'user_log' table
-    INSERT INTO `user_log` (`action`, `role_name`, `created_at`, `description`)
-    VALUES (logAction, roleName, createdAt, logDescription);
-
-END //
-DELIMITER ;
 
 
 -- for sub warden, academic warden, senior student counselor
@@ -831,8 +816,6 @@ BEGIN
 END //
 
 DELIMITER ;
-
--- create send report to dean
 
 DROP PROCEDURE IF EXISTS sp_send_report_to_dean;
 DELIMITER //
