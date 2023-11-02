@@ -832,6 +832,8 @@ END //
 
 DELIMITER ;
 
+-- create send report to dean
+
 DROP PROCEDURE IF EXISTS sp_send_report_to_dean;
 DELIMITER //
 CREATE PROCEDURE sp_send_report_to_dean(IN userId INT, IN complainInfo VARCHAR(2000), IN monthlyTotalCount INT)
