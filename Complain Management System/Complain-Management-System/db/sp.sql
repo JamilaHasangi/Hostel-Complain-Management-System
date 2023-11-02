@@ -808,3 +808,33 @@ END //
 DELIMITER ;
 
 
+
+-- generate monthly report sp
+
+DROP PROCEDURE IF EXISTS sp_generate_monthly_reports;
+DELIMITER //
+
+CREATE PROCEDURE sp_generate_monthly_reports()
+BEGIN
+    DECLARE dailyTotalCount INT;
+    DECLARE complain VARCHAR(2000);
+    DECLARE subWardenId, academicWardenId, seniorCounselorId INT;
+
+    SELECT description INTO complain FROM complaint;
+    SELECT COUNT(*) INTO dailyTotalCount FROM complaint WHERE DATE(submission_date) = CURDATE();
+
+    -- Get user ID for the SubWarden role
+    SELECT id INTO subWardenId FROM user WHERE role_id = 3 AND status = 1 LIMIT 1;
+
+    -- Get user ID for the Academic Warden role
+    SELECT id INTO academicWardenId FROM user WHERE role_id = 4 AND status = 1 LIMIT 1;
+
+    -- Get user ID for the Senior Student Counselor role
+    SELECT id INTO seniorCounselorId FROM user WHERE role_id = 5 AND status = 1 LIMIT 1;
+
+    CALL sp_send_report_to_sub_warden(subWardenId, complain, dailyTotalCount);
+    CALL sp_send_report_to_academic_warden(academicWardenId, complain, dailyTotalCount);
+    CALL sp_send_report_to_senior_student_counselor(seniorCounselorId, complain, dailyTotalCount);
+END //
+
+DELIMITER ;
