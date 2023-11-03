@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Asset List</title>
+</head>
+<body>
+<h1>Asset List</h1>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+
+    </tr>
+    <tr th:each="asset : ${assets}">
+        <td th:text="${asset.id}"></td>
+        <td th:text="${asset.name}"></td>
+
+    </tr>
+</table>
+</body>
+</html>
