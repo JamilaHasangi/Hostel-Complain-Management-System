@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Asset Form</title>
+</head>
+<body>
+<h1 th:if="${asset}">Edit Asset</h1>
+<h1 th:unless="${asset}">Add New Asset</h1>
+
+<form th:object="${asset}" th:action="@{${asset} ? @/assets/{id}(id=${asset.id}) : @/assets}" method="post">
+    <input type="hidden" th:field="*{id}" />
+    <label for="name">Name:</label>
+    <input type="text" th:field="*{name}" id="name" />
+    <br>
+    <label for="description">Description:</label>
+    <input type="text" th:field="*{description}" id="description" />
+    <br>
+    <label for="condition">Condition:</label>
+    <input type="text" th:field="*{condition}" id="condition" />
+    <br>
+    <label for="quantity">Quantity:</label>
+    <input type="number" th:field="*{quantity}" id="quantity" />
+    <br>
+    <input type="submit" value="Save" />
+</form>
+</body>
+</html>
