@@ -826,3 +826,16 @@ BEGIN
 END //
 DELIMITER ;
 
+
+DROP PROCEDURE IF EXISTS sp_academic_warden_escalation;
+DELIMITER //
+CREATE PROCEDURE sp_academic_warden_escalation()
+BEGIN
+    -- Update complaints that are waiting for sub-warden action for 3 days
+    UPDATE complaint
+    SET status                 = 2,
+        escalation_date        = CURRENT_DATE
+    WHERE DATEDIFF(CURRENT_DATE, submission_date) > 3
+      AND status = 1;
+END//
+DELIMITER ;

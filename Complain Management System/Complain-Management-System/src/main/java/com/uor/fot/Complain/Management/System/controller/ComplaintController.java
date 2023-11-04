@@ -59,7 +59,7 @@ public class ComplaintController {
             complaint.setQuantity(complaintDTO.getQuantity());
             complaint.setImageURL(imageUrl);
             complaint.setUrgency(PriorityType.getById(complaintDTO.getUrgency()).getId());
-            complaint.setStatus(ComplaintStatus.NEW.getId());
+            complaint.setStatus(ComplaintStatus.ESCALATED_TO_SUB_WARDEN.getId());
 
             complaintService.submitComplaint(complaint);
 

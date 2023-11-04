@@ -27,3 +27,15 @@ CALL sp_generate_monthly_reports();
 END;
 //
 DELIMITER ;
+
+DROP EVENT IF EXISTS event_academic_warden_escalation;
+
+DELIMITER //
+CREATE EVENT event_academic_warden_escalation
+    ON SCHEDULE EVERY 1 DAY
+    DO
+    BEGIN
+        CALL sp_academic_warden_escalation();
+    END;
+//
+DELIMITER ;
