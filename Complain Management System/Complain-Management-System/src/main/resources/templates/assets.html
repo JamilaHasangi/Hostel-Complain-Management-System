@@ -1,21 +1,37 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Asset List</title>
+    <title>Asset Management System</title>
 </head>
 <body>
-<h1>Asset List</h1>
+<h1>Asset Management System</h1>
+
+<a th:href="@{/assets/new}">Add New Asset</a>
+
 <table>
+    <thead>
     <tr>
         <th>ID</th>
         <th>Name</th>
-
+        <th>Description</th>
+        <th>Condition</th>
+        <th>Quantity</th>
+        <th>Action</th>
     </tr>
+    </thead>
+    <tbody>
     <tr th:each="asset : ${assets}">
         <td th:text="${asset.id}"></td>
         <td th:text="${asset.name}"></td>
-
+        <td th:text="${asset.description}"></td>
+        <td th:text="${asset.condition}"></td>
+        <td th:text="${asset.quantity}"></td>
+        <td>
+            <a th:href="@{/assets/{id}(id=${asset.id})}">Edit</a> |
+            <a th:href="@{/assets/delete/{id}(id=${asset.id})}">Delete</a>
+        </td>
     </tr>
+    </tbody>
 </table>
 </body>
 </html>

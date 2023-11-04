@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Room List</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+</head>
+<body>
+<h1>Room List</h1>
+<table class="table table-striped" >
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Room Number</th>
+        <th>Floor</th>
+        <th>No. of Students</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="room : ${rooms}">
+        <td th:text="${room.id}"></td>
+        <td th:text="${room.roomNo}"></td>
+        <td th:text="${room.floor}"></td>
+        <td th:text="${room.noOfStudents}"></td>
+        <td>
+            <a th:href="@{/rooms/{id}(id=${room.id})}" class="btn btn-primary">Edit</a>
+            <a th:href="@{/rooms/delete/{id}(id=${room.id})}" class="btn btn-danger">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a th:href="@{/rooms/new}" class="btn btn-primary">Add Room</a>
+</body>
+</html>
