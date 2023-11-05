@@ -1,4 +1,4 @@
----create view for student
+-- create view for student
 CREATE OR REPLACE view view_student_info AS
 SELECT u.first_name,
        u.last_name,
@@ -33,7 +33,7 @@ SELECT u.first_name,
 FROM hcms.`user` u,hcms.`dean` d, hcms.`user_role` ur, hcms.`faculty` f
 WHERE u.id = d.user_id AND u.role_id = 2 AND u.role_id = ur.id AND u.faculty_id = f.id;
 
----create view for complaint
+-- create view for complaint
 CREATE OR REPLACE view view_complaint_info AS
 SELECT u.first_name,
        u.last_name,
