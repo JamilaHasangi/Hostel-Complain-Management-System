@@ -599,26 +599,20 @@ CALL sp_add_room(
     );
 
 -- report
+DROP PROCEDURE IF EXISTS sp_add_report;
 DELIMITER //
 CREATE PROCEDURE sp_add_report(
-    IN reportContent VARCHAR(255),
-    IN reportDateTime DATETIME(6),
-    IN userId BIGINT
+    IN p_user_id INT,
+    IN p_report_type VARCHAR(255),
+    IN p_report_content VARCHAR(255)
 )
 BEGIN
-    DECLARE userExists INT;
-
-    SELECT COUNT(*) INTO userExists FROM user WHERE id = userId;
-
-    IF userExists > 0 THEN
-        INSERT INTO report (content, date_time, user_id)
-        VALUES (reportContent, reportDateTime, userId);
-        SELECT 'Report added successfully.' AS Status;
-    ELSE
-        SELECT 'Invalid user_id. Report not added.' AS Status;
-    END IF;
+    INSERT INTO report (user_id, report_type, report_date, report_content)
+    VALUES (p_user_id, p_report_type, CURDATE(), p_report_content);
 END //
 DELIMITER ;
+
+
 
 CALL sp_add_report(
         'complain Number 01',
@@ -739,92 +733,100 @@ DELIMITER ;
 -- for sub warden, academic warden, senior student counselor
 DROP PROCEDURE IF EXISTS sp_generate_daily_reports;
 DELIMITER //
-
 CREATE PROCEDURE sp_generate_daily_reports()
 BEGIN
-    DECLARE dailyTotalCount INT;
-    DECLARE complain VARCHAR(2000);
-    DECLARE subWardenId, academicWardenId, seniorCounselorId INT;
+    DECLARE sub_warden_id INT;
+    DECLARE academic_warden_id INT;
+    DECLARE senior_counselor_id INT;
+    DECLARE type VARCHAR(10);
+    DECLARE content VARCHAR(1000);
 
-    SELECT description INTO complain FROM complaint;
-    SELECT COUNT(*) INTO dailyTotalCount FROM complaint WHERE DATE(submission_date) = CURDATE();
+    -- Get the IDs of the sub warden, academic warden, and senior student counselor
+    SELECT id INTO sub_warden_id FROM user WHERE role_id = 3 AND status = 1 ORDER BY id LIMIT 1;
+    SELECT id INTO academic_warden_id FROM user WHERE role_id = 4 AND status = 1 ORDER BY id LIMIT 1;
+    SELECT id INTO senior_counselor_id FROM user WHERE role_id = 5 AND status = 1 ORDER BY id LIMIT 1;
 
-    -- Get user ID for the SubWarden role
-    SELECT id INTO subWardenId FROM user WHERE role_id = 3 AND status = 1 LIMIT 1;
+    -- Fetch data from the view and write to file
+    SET @file_name = CONCAT('C:/wamp64/tmp/daily_report_', DATE_FORMAT(NOW(), '%Y-%m-%d'), '.csv');
+    SET @sql_query = CONCAT('SELECT * FROM view_daily_report INTO OUTFILE ''', @file_name, '''');
+    PREPARE stmt FROM @sql_query;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
 
-    -- Get user ID for the Academic Warden role
-    SELECT id INTO academicWardenId FROM user WHERE role_id = 4 AND status = 1 LIMIT 1;
+    SET type = 'daily';
+    SET content = 'Daily report - please check the attached file';
 
-    -- Get user ID for the Senior Student Counselor role
-    SELECT id INTO seniorCounselorId FROM user WHERE role_id = 5 AND status = 1 LIMIT 1;
-
-    CALL sp_send_report_to_sub_warden(subWardenId, complain, dailyTotalCount);
-    CALL sp_send_report_to_academic_warden(academicWardenId, complain, dailyTotalCount);
-    CALL sp_send_report_to_senior_student_counselor(seniorCounselorId, complain, dailyTotalCount);
+    -- Send the daily report to the sub warden, academic warden, and senior student counselor
+    CALL sp_send_report_to_sub_warden(sub_warden_id, type, content);
+    CALL sp_send_report_to_academic_warden(academic_warden_id, type, content);
+    CALL sp_send_report_to_senior_student_counselor(senior_counselor_id, type, content);
 END //
-
 DELIMITER ;
+
 
 DROP PROCEDURE IF EXISTS sp_send_report_to_sub_warden;
 DELIMITER //
-CREATE PROCEDURE sp_send_report_to_sub_warden(IN userId INT, IN complainInfo VARCHAR(2000), IN dailyTotalCount INT)
+CREATE PROCEDURE sp_send_report_to_sub_warden(IN userId INT, IN type VARCHAR(10), IN content VARCHAR(1000))
 BEGIN
-    -- Logic to send the report to the sub warden
-    CALL sp_add_report(complainInfo,NOW(),userId);
+    -- Insert data to the report for the sub warden
+    CALL sp_add_report(userId, type, content);
 END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS sp_send_report_to_academic_warden;
 DELIMITER //
-CREATE PROCEDURE sp_send_report_to_academic_warden(IN userId INT, IN complainInfo VARCHAR(2000), IN dailyTotalCount INT)
+CREATE PROCEDURE sp_send_report_to_academic_warden(IN userId INT, IN type VARCHAR(10), IN content VARCHAR(1000))
 BEGIN
-    -- Logic to send the report to the academic warden
-    CALL sp_add_report(complainInfo,NOW(),userId);
+    -- Insert data to the report for the sub warden
+    CALL sp_add_report(userId, type, content);
 END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS sp_send_report_to_senior_student_counselor;
 DELIMITER //
-CREATE PROCEDURE sp_send_report_to_senior_student_counselor(IN userId INT, IN complainInfo VARCHAR(2000), IN dailyTotalCount INT)
+CREATE PROCEDURE sp_send_report_to_senior_student_counselor(IN userId INT, IN type VARCHAR(10), IN content VARCHAR(1000))
 BEGIN
-    -- Logic to send the report to the senior student counselor
-    CALL sp_add_report(complainInfo,NOW(),userId);
+    -- Insert data to the report for the sub warden
+    CALL sp_add_report(userId, type, content);
 END //
 DELIMITER ;
 
-
--- generate monthly report sp
-
+-- for dean
 DROP PROCEDURE IF EXISTS sp_generate_monthly_reports;
 DELIMITER //
-
 CREATE PROCEDURE sp_generate_monthly_reports()
 BEGIN
-    DECLARE monthlyTotalCount INT;
-    DECLARE complain VARCHAR(2000);
-    DECLARE deanId INT;
+    DECLARE dean_id INT;
+    DECLARE type VARCHAR(10);
+    DECLARE content VARCHAR(1000);
+    DECLARE file_path VARCHAR(200);
 
-    SELECT description INTO complain FROM complaint;
-    SELECT COUNT(*) INTO monthlyTotalCount FROM complaint WHERE MONTH(submission_date) = MONTH(CURDATE());
+    -- Get the ID of the dean
+    SELECT id INTO dean_id FROM user WHERE role_id = 2 AND status = 1;
 
-    -- Get user ID for the SubWarden role
-    SELECT id INTO deanId FROM user WHERE role_id = 2 AND status = 1 LIMIT 1;
+    -- Query for all complaints in the month
+    SET @file_name = CONCAT('C:/wamp64/tmp/monthly_report_', DATE_FORMAT(NOW(), '%Y-%m'), '.csv');
+    SET @sql_query = CONCAT('SELECT * FROM view_monthly_report INTO OUTFILE ''', @file_name, '''');
+    PREPARE stmt FROM @sql_query;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
 
+    SET type = 'monthly';
+    SET content = 'Monthly report - please check the attached file';
 
-    CALL sp_send_report_to_dean(deanId, complain, monthlyTotalCount);
-
+    -- Sending the monthly report to the dean
+    CALL sp_send_report_to_dean(dean_id, type, content);
 END //
-
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS sp_send_report_to_dean;
 DELIMITER //
-CREATE PROCEDURE sp_send_report_to_dean(IN userId INT, IN complainInfo VARCHAR(2000), IN monthlyTotalCount INT)
+CREATE PROCEDURE sp_send_report_to_dean(IN userId INT, IN type VARCHAR(10), IN content VARCHAR(1000))
 BEGIN
-    -- Logic to send the report to the senior student counselor
-    CALL sp_add_report(complainInfo,NOW(),userId);
-END //
-DELIMITER ;
+    -- Insert data to the report for the sub warden
+    CALL sp_add_report(userId, type, content);
+    END //
+    DELIMITER ;
 
 
 DROP PROCEDURE IF EXISTS sp_academic_warden_escalation;

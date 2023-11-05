@@ -23,7 +23,7 @@ public class    ReportController {
         this.reportService = reportService;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public String getAllReports(Model model) {
         List<Report> reports = reportService.getAllReports();
         model.addAttribute("reports", reports);
