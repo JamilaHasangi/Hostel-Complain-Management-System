@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hostel Management System</title>
+    <title>Complaint Management</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -22,6 +21,7 @@
             color: #fff;
             text-align: center;
             padding: 20px 0;
+            position: relative;
         }
 
         .dashboard-container {
@@ -60,35 +60,32 @@
             margin: 15px 0;
             font-size: 16px;
         }
+
+        .back_button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color:  #fff;
+            color:#000000;
+            padding: 5px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
     </style>
 </head>
-
 <body>
 <div class="header">
-    <h1>Hostel Management System</h1>
+    <h1>Complaint Management</h1>
+    <button class="back_button"><a href="dashboard.html">Back</a></button>
 </div>
 <div class="dashboard-container">
     <div class="dashboard-item">
-        <h2>User</h2>
-        <p><a href="add_user.html">Go to Add User Page</a></p>
+        <h2><a href="add_complaint.html">Add Complaint</a></h2>
     </div>
     <div class="dashboard-item">
-        <h2>Report</h2>
-        <p><a href="generate_report.html">Go to Generate Report Page</a></p>
-    </div>
-    <div class="dashboard-item">
-        <h2>Assets</h2>
-        <p><a href="manage_assets.html">Go to Manage Assets Page</a></p>
-    </div>
-    <div class="dashboard-item">
-        <h2>Complaints</h2>
-        <p><a href="handle_complaints.html">Go to Handle Complaints Page</a></p>
-    </div>
-    <div class="dashboard-item">
-        <h2>Rooms</h2>
-        <p><a href="manage_rooms.html">Go to Manage Rooms Page</a></p>
+        <h2><a href="view_complaint.html">View Complaint</a></h2>
     </div>
 </div>
 </body>
-
 </html>
