@@ -17,11 +17,28 @@
             height: 100vh;
         }
 
-        .header {
+        .back-button {
+            align-self: flex-end;
+            margin: 10px;
+            padding: 10px 20px;
+            text-align: right;
+
+        }
+
+        .title-bar {
             background-color: #45a049;
             color: #fff;
             text-align: center;
             padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+        }
+
+        .title {
+            margin: 0;
+            text-align: center;
+
         }
 
         .registration-container {
@@ -82,12 +99,15 @@
         .centered-button button:hover {
             background-color: #45a049;
         }
+
+
     </style>
 </head>
 
 <body>
-<div class="header">
-    <h1>Add User</h1>
+<div class="title-bar">
+    <h1 class="title">Add User</h1>
+    <a class="back-button" href="user.html" style="color: white;">Back</a>
 </div>
 <div class="registration-container" >
     <div class="input-group">
