@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add User</title>
+    <title>View Asset</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -161,24 +161,17 @@
 
 <body>
 <div class="header">
-    <h1>View User</h1>
+    <h1>View Asset</h1>
 </div>
 
 <div class="table-container">
     <table>
         <thead>
         <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Password</th>
-            <th>NIC</th>
-            <th>Contact</th>
-            <th>Address</th>
-            <th>Role ID</th>
-            <th>Faculty ID</th>
-            <th>Created At</th>
-            <th>Status</th>
+            <th>Asset Condition</th>
+            <th>Asset Description</th>
+            <th>Asset Name</th>
+            <th>Asset Quantity</th>
             <th>Actions</th>
 
         </tr>
@@ -189,17 +182,10 @@
             <td>Doe</td>
             <td>john.doe@example.com</td>
             <td>******</td>
-            <td>123456789</td>
-            <td>123-456-7890</td>
-            <td>123 Main St, City</td>
-            <td>1</td>
-            <td>1</td>
-            <td>2023-11-06 12:00:00</td>
-            <td>Active</td>
             <td>
                 <div class="button-container">
-                    <button class="update-button" onclick="updateUser(1)"><a href="update_user.html" >Update</a></button>
-                    <button class="delete-button" onclick="deleteUser(1)">Delete</button>
+                    <button class="update-button" onclick="updateComplaint(1)"><a href="update_assets.html" >Update</a></button>
+                    <button class="delete-button" onclick="deleteComplaint(1)">Delete</button>
                 </div>
             </td>
 
