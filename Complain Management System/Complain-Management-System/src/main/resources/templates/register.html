@@ -1,25 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Registration</title>
+  <title>Hostel Management System</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      height: 100vh;
+      height: 50vh;
       margin: 0;
       background-color: #f2f2f2;
+      background-image: url('background.jpg');
+      background-size: cover;
     }
+
+    .header {
+      background-color: #45a049;
+      color: #fff;
+      text-align: center;
+      padding: 20px 0;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .dashboard-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .dashboard-item {
+      background-color: #fff;
+      padding: 20px;
+      margin: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      min-width: 300px;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .dashboard-item:hover {
+      transform: translateY(-10px);
+    }
+
+    .dashboard-item h2 {
+      color: #45a049;
+    }
+
+    .dashboard-item a {
+      color: #45a049;
+      text-decoration: none;
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+
+    .signin-heading {
+      text-align: center;
+      color: #333;
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
 
     .registration-container {
       width: 600px;
       margin: auto;
       background-color: #fff;
-      padding: 40px;
+      padding: 30px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       display: grid;
@@ -37,6 +92,7 @@
       display: block;
       margin-bottom: 5px;
       color: #666;
+      font-weight: bold;
     }
 
     .input-group input,
@@ -75,14 +131,19 @@
 </head>
 
 <body>
+<div class="header" onclick="location.href='dashboard.html'">
+  <h1>Hostel Management System</h1>
+</div>
 <div class="registration-container">
   <h1>User Registration</h1>
   <div class="input-group">
-    <label for="title">Title</label>
-    <select id="title" name="title">
-      <option value="mr">Mr.</option>
-      <option value="mrs">Mrs.</option>
-      <option value="ms">Ms.</option>
+    <label for="role">Role</label>
+    <select id="role" name="role">
+      <option value="student">Student</option>
+      <option value="senior student counselor">Senior Student Counselor</option>
+      <option value="sub warden">Sub Warden</option>
+      <option value="academic warden">Academic Warden</option>
+      <option value="dean">Dean</option>
     </select>
   </div>
   <div class="input-group">
@@ -116,9 +177,10 @@
   <div class="input-group centered-button align-left" style="display: flex; justify-content: space-between;">
     <button type="submit" style="margin-right: 10px;">Register</button>
     <div style="margin-left: 10px;">
-      <p style="margin: 0;">Already have an account? <a href="#" style="text-decoration: none;">Sign-in</a></p>
+      <p style="margin: 0;">Already have an account? <a href="login.html" style="text-decoration: none;">Log-In</a></p>
     </div>
   </div>
 </div>
 </body>
+
 </html>

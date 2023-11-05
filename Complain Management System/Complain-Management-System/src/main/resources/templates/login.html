@@ -1,19 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CAMS</title>
+    <title>Hostel Management System</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
+            height: 20vh;
             margin: 0;
             background-color: #f2f2f2;
+            background-image: url('background.jpg');
+            background-size: cover;
         }
+
+        .header {
+            background-color: #45a049;
+            color: #fff;
+            text-align: center;
+            margin-top: 0px;
+            width: 100%;
+            cursor: pointer;
+
+        }
+
+        .dashboard-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .dashboard-item {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            min-width: 300px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .dashboard-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .dashboard-item h2 {
+            color: #45a049;
+        }
+
+        .dashboard-item a {
+            color: #45a049;
+            text-decoration: none;
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .signin-heading {
+            text-align: center;
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
 
         .login-container {
             width: 300px;
@@ -36,6 +92,7 @@
             display: block;
             margin-bottom: 5px;
             color: #666;
+            font-weight: bold;
         }
 
         .input-group input {
@@ -58,11 +115,35 @@
         .input-group button:hover {
             background-color: #45a049;
         }
+        .signin-heading {
+            text-align: center;
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        .header {
+            background-color: #45a049;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+        .dashboard-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px;
+        }
     </style>
 </head>
+
 <body>
+<div class="header" onclick="location.href='dashboard.html'">
+    <h1>Hostel Management System</h1>
+</div>
+<div class="dashboard-container">
+</div>
 <div class="login-container">
-    <h1>Sign-in</h1>
+    <h1 class="signin-heading">Sign-in</h1>
     <div class="input-group">
         <label for="username">Username</label>
         <input type="text" id="username" name="username" placeholder="Enter your username or registration number">
@@ -74,6 +155,10 @@
     <div class="input-group">
         <button type="submit" style="width: 100%">Login</button>
     </div>
+    <div class="input-group">
+        <button type="submit" style="width: 100%">Sign up</button>
+    </div>
 </div>
 </body>
+
 </html>
