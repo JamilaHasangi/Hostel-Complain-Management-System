@@ -65,13 +65,67 @@
             position: absolute;
             top: 10px;
             right: 10px;
-            background-color:  #fff;
-            color:#000000;
+            background-color: #fff;
+            color: #000000;
             padding: 5px 15px;
             border-radius: 20px;
             cursor: pointer;
         }
 
+        /* Customized dropdown styles */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-select {
+            background-color: #45a049; /* Green color for the dropdown */
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            position: relative;
+            color: #fff;
+        }
+
+        .dropdown-select::before {
+            content: "▼"; /* Rectangle symbol for dropdown */
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+        }
+
+        .dropdown-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: #f0f0f0; /* Green color for dropdown options */
+            border: 1px solid #666666; /* Match the border color to the background */
+            border-radius: 5px;
+            max-height: 100px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .dropdown.active .dropdown-options {
+            display: block;
+        }
+
+        .dropdown-options ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .dropdown-options li {
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-options li:hover {
+            background-color: #AEB1B0; /* Darker green color on hover */
+        }
     </style>
 </head>
 <body>
@@ -84,8 +138,51 @@
         <h2><a href="add-report.html">Add Report</a></h2>
     </div>
     <div class="dashboard-item">
-        <h2><a href="view_complaint.html">View Report</a></h2>
+        <h2>Generate Report</h2>
+        <div class="dropdown">
+            <div class="dropdown-select">Select Report Type</div>
+            <div class="dropdown-options">
+                <ul>
+                    <li><b><a href="generate_daily_report.html">Daily Report</a></b></li>
+                    <li><b><a href="generate_monthly_report.html">Monthly Report</a></b></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="dashboard-item">
+        <h2>View Report</h2>
+        <div class="dropdown">
+            <div class="dropdown-select">Select Report Type</div>
+            <div class="dropdown-options">
+                <ul>
+                    <li><b><a href="view_daily_report.html">Daily Report</a></b></li>
+                    <li><b><a href="view_monthly_report.html">Monthly Report</a></b></li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
+<script>
+    document.addEventListener("click", function (e) {
+        const dropdowns = document.querySelectorAll(".dropdown");
+        dropdowns.forEach(function (dropdown) {
+            if (!dropdown.contains(e.target)) {
+                dropdown.classList.remove("active");
+            }
+        });
+    });
+
+    const dropdownSelects = document.querySelectorAll(".dropdown-select");
+    dropdownSelects.forEach(function (select) {
+        select.addEventListener("click", function (e) {
+            const dropdown = this.parentNode;
+            if (dropdown.classList.contains("active")) {
+                dropdown.classList.remove("active");
+            } else {
+                dropdown.classList.add("active");
+            }
+        });
+    });
+</script>
 </body>
 </html>
