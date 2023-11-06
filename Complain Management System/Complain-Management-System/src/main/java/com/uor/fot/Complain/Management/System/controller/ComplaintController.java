@@ -18,8 +18,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/complain")
@@ -38,7 +40,7 @@ public class ComplaintController {
     }
 
     @PostMapping("/submit")
-    public ResponseEntity<String> submitComplaint(@RequestPart("complaintDTO") CreateComplaintDTO complaintDTO, @RequestPart("image") MultipartFile image) {
+    public String submitComplaint(@RequestPart("complaintDTO") CreateComplaintDTO complaintDTO, @RequestPart("image") MultipartFile image, RedirectAttributes redirectAttributes) {
         try {
             // Save the image
             String imageUrl = imageService.saveImage(image);
@@ -58,7 +60,7 @@ public class ComplaintController {
             if (student == null) {
                 throw new RuntimeException("Student not found.");
             }
-            complaint.setUser(student);
+            complaint.setStudent(student);
 
             complaint.setDescription(complaintDTO.getDescription());
             complaint.setQuantity(complaintDTO.getQuantity());
@@ -68,18 +70,24 @@ public class ComplaintController {
 
             complaintService.submitComplaint(complaint);
 
-            return ResponseEntity.ok("Complaint submitted successfully.");
+            redirectAttributes.addFlashAttribute("successMessage", "Complaint submitted successfully.");
+            return "redirect:/view-complaints";
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to submit the complaint.");
+            redirectAttributes.addFlashAttribute("errorMessage", "Failed to submit the complaint.");
+            return "redirect:/view-complaints";
         }
     }
 
-    @GetMapping("/info")
+    @GetMapping("/view/info")
     public String getComplainsInfo(Model model) {
-        List<ComplaintInfoResponseDto> complaintInfo = complaintService.getComplaintInfo();
-        model.addAttribute("complains", complaintInfo);
+        List<ComplaintInfoResponseDto> complaints = complaintService.getComplaintInfo();
+        model.addAttribute("complaints", complaints);
         return "complaint/view_complaint";
+    }
+
+    @PostMapping("update")
+    public String updateComplain(CreateComplaintDTO complaintDTO) {
+        return null;
     }
 }

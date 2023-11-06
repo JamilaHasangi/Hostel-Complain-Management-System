@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -77,14 +77,14 @@
 <body>
 <div class="header">
     <h1>Complaint Management</h1>
-    <button class="back_button"><a href="../dashboard.html">Back</a></button>
+    <button class="back_button"><a th:href="@{/home/complaint}">Back</a></button>
 </div>
 <div class="dashboard-container">
     <div class="dashboard-item">
-        <h2><a href="add_complaint.html">Add Complaint</a></h2>
+        <h2><a th:href="@{/add/complaint}">Add Complaint</a></h2>
     </div>
     <div class="dashboard-item">
-        <h2><a href="view_complaint.html">View Complaint</a></h2>
+        <h2><a th:href="@{/complain/view/info}">View Complaint</a></h2>
     </div>
 </div>
 </body>

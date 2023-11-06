@@ -21,7 +21,7 @@ public class ImageService {
             String uniqueFilename = System.currentTimeMillis() + "_" + originalFilename;
 
             // Resolve the full path for the image file
-            Path imagePath = Paths.get("images/asset/damage", uniqueFilename);
+            Path imagePath = Paths.get("static/images/asset/damage", uniqueFilename);
 
             // Copy the uploaded file to the target path
             Files.copy(image.getInputStream(), imagePath, StandardCopyOption.REPLACE_EXISTING);

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.math.BigInteger;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -59,7 +60,7 @@ public class ComplaintService {
             BitMatrix bitMatrix = qrCodeWriter.encode(qrCodeText, com.google.zxing.BarcodeFormat.QR_CODE, width, height);
 
             // Save the QR code image to a file
-            Path qrCodePath = Paths.get("images/qr-codes/" + complaint.getId() + ".png");
+            Path qrCodePath = Paths.get("static/images/qr-codes/" + complaint.getId() + ".png");
             MatrixToImageWriter.writeToPath(bitMatrix, "PNG", qrCodePath);
 
             // Associate the QR code URL or file path with the complaint and save it
@@ -67,7 +68,7 @@ public class ComplaintService {
 
             // save
             complaintRepository.saveComplaint(
-                    complaint.getUser().getId(),
+                    complaint.getStudent().getId(),
                     complaint.getAsset().getId(),
                     complaint.getDescription(),
                     complaint.getStatus(),
@@ -126,24 +127,39 @@ public class ComplaintService {
 
     public List<ComplaintInfoResponseDto> getComplaintInfo() {
         List<ComplaintInfoResponseDto> results = new ArrayList<>();
-        logger.debug("------------------------------------");
         List<Object[]> data = complaintRepository.getComplaintInfo();
-
-        logger.debug("data -------------------------> {}", data);
 
         for (Object[] row : data) {
             ComplaintInfoResponseDto dto = new ComplaintInfoResponseDto();
-            dto.setFirstName((String) row[0]);
-            dto.setLastName((String) row[1]);
-            dto.setRoleName((String) row[2]);
-            dto.setFacultyName((String) row[3]);
-            dto.setCreatedAt((Date) row[4]);
-            dto.setUpdatedAt((Date) row[5]);
-            dto.setAssetName((String) row[6]);
-            dto.setDescription((String) row[7]);
-            dto.setSubmissionDate((Date) row[8]);
+            dto.setCpId(((BigInteger) row[0]).intValue());
+            dto.setFirstName((String) row[1]);
+            dto.setLastName((String) row[2]);
+            dto.setRoleName((String) row[3]);
+            dto.setFacultyName((String) row[4]);
+            dto.setCreatedAt((Date) row[5]);
+            dto.setUpdatedAt((Date) row[6]);
+            dto.setAssetName((String) row[7]);
+            dto.setDescription((String) row[8]);
+            dto.setSubmissionDate((Date) row[9]);
             dto.setQuantity((Integer) row[10]);
-            dto.setStatus((Integer) row[11]);
+
+            int statusId = (int) row[11]; // assuming row[11] is already an Integer
+            String status;
+            switch (statusId) {
+                case 1:
+                    status = "Escalated to Sub-Warden";
+                    break;
+                case 2:
+                    status = "Escalated to Academic Warden";
+                    break;
+                case 3:
+                    status = "Resolved";
+                    break;
+                default:
+                    status = "Unknown";
+                    break;
+            }
+            dto.setStatus(status);
 
             results.add(dto);
         }

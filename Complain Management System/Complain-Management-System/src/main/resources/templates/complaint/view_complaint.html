@@ -116,7 +116,7 @@
 <body>
 <div class="title-bar">
     <h1 class="title">View Complaints</h1>
-    <a class="back-button" href="complaint.html" style="color: white;">Back</a>
+    <a class="back-button" th:href="@{/home/complaint}" style="color: white;">Back</a>
 </div>
 <table>
     <thead>
@@ -136,7 +136,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="complain : ${complains}">
+    <tr th:each="complain : ${complaints}">
         <td th:text="${complain.firstName}"></td>
         <td th:text="${complain.lastName}"></td>
         <td th:text="${complain.roleName}"></td>
@@ -149,13 +149,25 @@
         <td th:text="${complain.quantity}"></td>
         <td th:text="${complain.status}"></td>
         <td>
-            <button class="update-button" th:onclick="'updateComplaint(\'' + ${complain.firstName} + '\')'">
-                <a href="update_complaint.html">Update</a>
-            </button>
-            <button class="delete-button" th:onclick="'deleteComplaint(\'' + ${complain.firstName} + '\')'">Delete</button>
+            <button class="update-button" th:href="@{/update/complaint}">Update</button>
+            <button class="delete-button">Delete</button>
         </td>
     </tr>
     </tbody>
 </table>
+
+<script th:inline="javascript">
+    function updateComplaint(id) {
+        console.log('Update complaint:', id);
+        // You can redirect the user to the update page or perform any other action here
+        // Add your logic here
+    }
+
+    function deleteComplaint(id) {
+        console.log('Delete complaint:', id);
+        // You can confirm the deletion with the user and send a request to the server to delete the complaint
+        // Add your logic here
+    }
+</script>
 </body>
 </html>

@@ -35,16 +35,16 @@ WHERE u.id = d.user_id AND u.role_id = 2 AND u.role_id = ur.id AND u.faculty_id 
 
 -- create view for complaint
 CREATE OR REPLACE view view_complaint_info AS
-SELECT u.first_name,
+SELECT cp.id,
+       u.first_name,
        u.last_name,
        ur.name AS role_name,
-       f.name AS faculty_name,
+       f.name  AS faculty_name,
        u.created_at,
        u.updated_at,
-       a.name AS asset_name,
+       a.name  AS asset_name,
        cp.description,
        cp.submission_date,
-       cp.is_resolved,
        cp.quantity,
        cp.status
 FROM hcms.`user` u,hcms.`complaint` cp, hcms.`user_role` ur, hcms.`faculty` f, hcms.`asset` a

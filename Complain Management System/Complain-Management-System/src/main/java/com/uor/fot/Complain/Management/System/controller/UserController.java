@@ -11,12 +11,14 @@ import com.uor.fot.Complain.Management.System.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/users")
+@Controller
+@RequestMapping("/user")
 public class UserController {
 
     private static final String SUCCESS_MESSAGE = "User registered successfully.";
@@ -35,20 +37,17 @@ public class UserController {
 
     // Create a new user
     @PostMapping("/register")
-    public ResponseEntity<RegistrationResponseDto> registerUser(@RequestBody UserRegistrationDTO userRegistrationDTO) {
-        RegistrationResponseDto response;
+    public String registerUser(@ModelAttribute UserRegistrationDTO userRegistrationDTO, RedirectAttributes redirectAttributes) {
         // validate request
         validateRequest(userRegistrationDTO);
         boolean isCreated = userService.createUser(userRegistrationDTO);
         if (isCreated) {
-            // Create a success response
-            response = new RegistrationResponseDto(SUCCESS_MESSAGE);
-
-            return ResponseEntity.ok(response);
+            redirectAttributes.addFlashAttribute("registrationSuccess", true);
+            return "redirect:/login";
         } else {
-            // Create a error response
-            response = new RegistrationResponseDto(INTERNAL_ERROR_MESSAGE);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            redirectAttributes.addFlashAttribute("registrationSuccess", false);
+            // handle the error case
+            return "redirect:/register";
         }
     }
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,6 +23,8 @@
       align-self: flex-end;
       margin: 10px;
       padding: 10px 20px;
+      text-align: right;
+
     }
 
     /* Title Bar */
@@ -90,69 +92,76 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      margin-right: 10px;
+    }
+
+    .form-dropdown {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    .form-date {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
     }
   </style>
 </head>
 <body>
 <div class="title-bar">
   <h1 class="title">Update Complaint</h1>
-  <a class="back-button" href="view_complaint.html" style="color: white;">Back</a>
+  <a class="back-button" th:href="@{/home/view_complaint}" style="color: white;">Back</a>
 </div>
 <div class="form-container">
-  <form class="complaint-form" method="post" action="your_php_script_for_handling_complaint.php">
+  <form class="complaint-form" th:action="@{complain/update}" method="post" enctype="multipart/form-data">
     <div class="form-section">
       <div class="form-column">
-        <label for="userId" class="form-label">User ID:</label>
-        <input type="text" name="userId" id="userId" class="form-input">
+        <label for="regNo" class="form-label">Registration No:</label>
+        <input type="text" name="studentRegNo" id="regNo" class="form-input" th:value="">
       </div>
       <div class="form-column">
-        <label for="assetId" class="form-label">Asset ID:</label>
-        <input type="text" name="assetId" id="assetId" class="form-input">
+        <label for="assetId" class="form-label">Asset Type:</label>
+        <select name="assetId" id="assetId" class="form-dropdown" th:value="">
+          <option th:value="1" th:selected="">Chair</option>
+          <option th:value="2" th:selected="">Table</option>
+          <option th:value="3" th:selected="">Cupboard</option>
+          <!-- Add more options as needed -->
+        </select>
       </div>
     </div>
     <div class="form-section">
       <div class="form-column">
         <label for="description" class="form-label">Description:</label>
-        <input type="text" name="description" id="description" class="form-input">
+        <input type="text" name="description" id="description" class="form-input" th:value="$">
       </div>
       <div class="form-column">
-        <label for="complaintStatus" class="form-label">Complaint Status:</label>
-        <input type="text" name="complaintStatus" id="complaintStatus" class="form-input">
+        <label for="complaintQuantity" class="form-label">Complaint Quantity:</label>
+        <input type="text" name="quantity" id="complaintQuantity" class="form-input" th:value="$">
       </div>
     </div>
     <div class="form-section">
       <div class="form-column">
         <label for="complaintUrgency" class="form-label">Complaint Urgency:</label>
-        <input type="text" name="complaintUrgency" id="complaintUrgency" class="form-input">
+        <select name="urgency" id="complaintUrgency" class="form-dropdown" th:value="$">
+          <option th:value="1" th:selected="">Low</option>
+          <option th:value="2" th:selected="">Medium</option>
+          <option th:value="3" th:selected="">High</option>
+        </select>
       </div>
       <div class="form-column">
-        <label for="complaintQuantity" class="form-label">Complaint Quantity:</label>
-        <input type="text" name="complaintQuantity" id="complaintQuantity" class="form-input">
+        <label for="imageURL" class="form-label">Image :</label>
+        <input type="file" name="image" id="imageURL" class="form-input" accept="image/*">
       </div>
     </div>
-    <div class="form-section">
-      <div class="form-column">
-        <label for="imageURL" class="form-label">Image URL:</label>
-        <input type="file" name="imageURL" id="imageURL" class="form-input" accept="image/*">
-      </div>
-      <div class="form-column">
-        <label for="qrCodeUrl" class="form-label">QR Code URL:</label>
-        <input type="text" name="qrCodeUrl" id="qrCodeUrl" class="form-input">
-      </div>
+    <div style="text-align: center;">
+      <button type="submit" class="form-button">Submit</button>
+      <button type="reset" class="form-button">Reset</button>
     </div>
-    <div class="form-section">
-      <div class="form-column">
-        <label for="escalationCount" class="form-label">Escalation Count:</label>
-        <input type="text" name="escalationCount" id="escalationCount" class="form-input">
-      </div>
-      <div class="form-column">
-        <label for="submissionDate" class="form-label">Submission Date:</label>
-        <input type="text" name="submissionDate" id="submissionDate" class="form-input">
-      </div>
-    </div>
-    <button type="submit" class="form-button">Submit</button>
-    <button type="reset" class="form-button">Reset</button>
-
   </form>
 </div>
 </body>

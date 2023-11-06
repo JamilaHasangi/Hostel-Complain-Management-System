@@ -6,6 +6,7 @@ import java.util.Date;
 
 @Data
 public class ComplaintInfoResponseDto {
+    private Integer cpId;
     private String firstName;
     private String lastName;
     private String roleName;
@@ -16,5 +17,5 @@ public class ComplaintInfoResponseDto {
     private String description;
     private Date submissionDate;
     private int quantity;
-    private int status;
+    private String status;
 }

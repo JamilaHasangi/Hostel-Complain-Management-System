@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -60,6 +60,17 @@
             margin: 15px 0;
             font-size: 16px;
         }
+
+        /* Style for the success message */
+        #successMessage {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            padding: 10px;
+            border-radius: 5px;
+        }
     </style>
 </head>
 
@@ -69,26 +80,44 @@
 </div>
 <div class="dashboard-container">
     <div class="dashboard-item">
-        <h2><a href="user/user.html">User</a></h2>
+        <h2><a th:href="@{/home/user}">User</a></h2>
         <p>Go to User Management</p>
     </div>
     <div class="dashboard-item">
-        <h2><a href="report/reports.html">Report</a></h2>
+        <h2><a th:href="@{/home/report}">Report</a></h2>
         <p>Go to Report Management</p>
     </div>
     <div class="dashboard-item">
-        <h2><a href="assest/assets.html">Assets</a></h2>
+        <h2><a th:href="@{/home/asset}">Assets</a></h2>
         <p>Go to Assets Management</p>
     </div>
     <div class="dashboard-item">
-        <h2><a href="complaint/complaint.html">Complaints</a></h2>
+        <h2><a th:href="@{/home/complaint}">Complaints</a></h2>
         <p>Go to Complaints Management</p>
     </div>
     <div class="dashboard-item">
-        <h2><a href="room/rooms.html">Rooms</a></h2>
+        <h2><a th:href="@{/home/room}">Rooms</a></h2>
         <p>Go to Rooms Management</p>
     </div>
 </div>
+<!-- Display the success message here -->
+<div id="successMessage"></div>
+
+<script>
+    // Set a timeout function to hide the success message after a certain time
+    setTimeout(function () {
+        var successMessage = document.getElementById('successMessage');
+        if (successMessage) {
+            successMessage.style.display = 'none';
+        }
+    }, 5000); // Timeout of 5000 milliseconds (5 seconds)
+
+    // Add the success message to the message container
+    var successMessageContainer = document.getElementById('successMessage');
+    if (successMessageContainer) {
+        successMessageContainer.innerHTML = "<p>Login successful</p>"; // Replace with your desired message
+    }
+</script>
 </body>
 
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -131,7 +131,7 @@
 <body>
 <div class="header">
     <h1>Report Management</h1>
-    <button class="back_button"><a href="../dashboard.html">Back</a></button>
+    <button class="back_button"><a th:href="@{/dashboard}">Back</a></button>
 </div>
 <div class="dashboard-container">
     <div class="dashboard-item">
@@ -140,8 +140,8 @@
             <div class="dropdown-select">Select Report Type</div>
             <div class="dropdown-options">
                 <ul>
-                    <li><b><a href="generate_daily_report.html">Daily Report</a></b></li>
-                    <li><b><a href="generate_monthly_report.html">Monthly Report</a></b></li>
+                    <li><b><a th:href="@{/generate/daily-report}">Daily Report</a></b></li>
+                    <li><b><a th:href="@{/generate/monthly-report}">Monthly Report</a></b></li>
                 </ul>
             </div>
         </div>
@@ -152,8 +152,8 @@
             <div class="dropdown-select">Select Report Type</div>
             <div class="dropdown-options">
                 <ul>
-                    <li><b><a href="view_daily_report.html">Daily Report</a></b></li>
-                    <li><b><a href="view_monthly_report.html">Monthly Report</a></b></li>
+                    <li><b><a th:href="@{/view/daily-report}">Daily Report</a></b></li>
+                    <li><b><a th:href="@{/view/monthly-report}">Monthly Report</a></b></li>
                 </ul>
             </div>
         </div>
