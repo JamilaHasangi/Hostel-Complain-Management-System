@@ -1,5 +1,6 @@
 package com.uor.fot.Complain.Management.System.controller;
 
+import com.uor.fot.Complain.Management.System.dto.ComplaintInfoResponseDto;
 import com.uor.fot.Complain.Management.System.dto.CreateComplaintDTO;
 import com.uor.fot.Complain.Management.System.dto.PriorityType;
 import com.uor.fot.Complain.Management.System.enums.ComplaintStatus;
@@ -13,11 +14,15 @@ import com.uor.fot.Complain.Management.System.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-@RestController
-@RequestMapping("/api/complains")
+import java.util.List;
+
+@Controller
+@RequestMapping("/complain")
 public class ComplaintController {
     private final ComplaintService complaintService;
     private final AssetService assetService;
@@ -71,10 +76,10 @@ public class ComplaintController {
         }
     }
 
-
-    @PostMapping("/{complaintId}/handle-escalation")
-    public ResponseEntity<Void> handleEscalatedComplaint(@PathVariable Long complaintId) {
-        complaintService.handleEscalatedComplaint(complaintId);
-        return ResponseEntity.ok().build();
+    @GetMapping("/info")
+    public String getComplainsInfo(Model model) {
+        List<ComplaintInfoResponseDto> complaintInfo = complaintService.getComplaintInfo();
+        model.addAttribute("complains", complaintInfo);
+        return "complaint/view_complaint";
     }
 }

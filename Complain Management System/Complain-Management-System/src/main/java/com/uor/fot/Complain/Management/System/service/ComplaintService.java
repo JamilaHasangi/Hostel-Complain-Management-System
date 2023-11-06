@@ -3,23 +3,29 @@ package com.uor.fot.Complain.Management.System.service;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.uor.fot.Complain.Management.System.dto.ComplaintInfoResponseDto;
 import com.uor.fot.Complain.Management.System.enums.ComplaintStatus;
 import com.uor.fot.Complain.Management.System.model.Complaint;
 import com.uor.fot.Complain.Management.System.model.User;
 import com.uor.fot.Complain.Management.System.repository.ComplaintRepository;
 import com.uor.fot.Complain.Management.System.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ComplaintService {
+    private static final Logger logger = LoggerFactory.getLogger(ComplaintService.class);
+
 
     private final ComplaintRepository complaintRepository;
     private EmailService emailService;
@@ -116,5 +122,32 @@ public class ComplaintService {
             // Send the email
             emailService.sendEmailToUser(user.getEmail(), subject, message);
         }
+    }
+
+    public List<ComplaintInfoResponseDto> getComplaintInfo() {
+        List<ComplaintInfoResponseDto> results = new ArrayList<>();
+        logger.debug("------------------------------------");
+        List<Object[]> data = complaintRepository.getComplaintInfo();
+
+        logger.debug("data -------------------------> {}", data);
+
+        for (Object[] row : data) {
+            ComplaintInfoResponseDto dto = new ComplaintInfoResponseDto();
+            dto.setFirstName((String) row[0]);
+            dto.setLastName((String) row[1]);
+            dto.setRoleName((String) row[2]);
+            dto.setFacultyName((String) row[3]);
+            dto.setCreatedAt((Date) row[4]);
+            dto.setUpdatedAt((Date) row[5]);
+            dto.setAssetName((String) row[6]);
+            dto.setDescription((String) row[7]);
+            dto.setSubmissionDate((Date) row[8]);
+            dto.setQuantity((Integer) row[10]);
+            dto.setStatus((Integer) row[11]);
+
+            results.add(dto);
+        }
+
+        return results;
     }
 }

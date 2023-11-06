@@ -15,6 +15,6 @@ public class MainController {
 
     @GetMapping("/login")
     public String getLoginPage() {
-        return "login";
+        return "auth/login";
     }
 }

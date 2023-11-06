@@ -19,9 +19,9 @@ CREATE PROCEDURE sp_register_student(
 )
 BEGIN
     -- Insert a new user into the 'user' table
-    INSERT INTO `user` (`first_name`, `last_name`, `email`, `password`, `nic`, `contact`, `address`, `role_id`,
+    INSERT INTO `user` (`first_name`, `last_name`, `email`, `password`, `nic`, `login_attempts`,`contact`, `address`, `role_id`,
                         `faculty_id`, `created_at`, `status`)
-    VALUES (firstName, lastName, emailAddress, userPassword, nicNo, contactNo, userAddress, roleId, facultyId,
+    VALUES (firstName, lastName, emailAddress, userPassword, nicNo, 0, contactNo, userAddress, roleId, facultyId,
             createdAt, userStatus);
 
     -- Get the last inserted user ID

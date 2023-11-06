@@ -188,7 +188,11 @@ public class UserService {
     }
 
     public void incrementLoginAttempts(User user) {
-        user.incrementLoginAttempts();
+        if (user.getLoginAttempts() == 0) {
+            user.setLoginAttempts(1);
+        } else {
+            user.setLoginAttempts(user.getLoginAttempts() + 1);
+        }
         if (user.getLoginAttempts() >= User.getMaxLoginAttempts()) {
             lockAccount(user);
         }
