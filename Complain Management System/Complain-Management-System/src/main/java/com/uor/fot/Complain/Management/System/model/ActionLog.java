@@ -17,7 +17,7 @@ public class ActionLog {
     private String description;
 
     @Column(name = "log_type")
-    private String condition;
+    private String logType;
 
     @Column(name = "action")
     private String action;

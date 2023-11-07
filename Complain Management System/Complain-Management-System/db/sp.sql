@@ -663,10 +663,10 @@ END //
 DELIMITER ;
 
 -- Call the stored procedure with Sample Data 1
-CALL sp_register_complaint(8, 1, 'Broken equipment', 0, 1, 2, 'sample_image1.jpg', 'sample_qrcode1.jpg', 0, NOW());
+CALL sp_register_complaint(11, 1, 'Broken equipment', 1, 1, 2, 'sample_image1.jpg', 'sample_qrcode1.jpg', 0, NOW());
 
 -- Call the stored procedure with Sample Data 2
-CALL sp_register_complaint(9, 2, 'Network issues', 0, 2, 1, 'sample_image2.jpg', 'sample_qrcode2.jpg', 0, NOW());
+CALL sp_register_complaint(10, 2, 'Network issues', 1, 2, 1, 'sample_image2.jpg', 'sample_qrcode2.jpg', 0, NOW());
 
 
 -- complaint procedure updated
